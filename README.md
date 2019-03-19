@@ -4,4 +4,4 @@ This repositorio belongs to the course _Full Stack -websovelluskehitys harjoitus
 
 Campus24 is a bulletin board for students in University of Helsinki.
 
-[Timesheet](https://github.com/olgaviho/campus24-frontend/edit/master/timesheet.md)
+[Timesheet](https://github.com/olgaviho/campus24-frontend/blob/master/timesheet.md)
