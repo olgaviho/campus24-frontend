@@ -1,28 +1,70 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react'
+import Thread from './components/Thread'
+import NewThreadForm from './components/NewThreadFrom'
+import threadService from './services/threads'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+
+const App = () => {
+  const [threads, setThreads] = useState([])
+  const [newTitle, setNewTitle] = useState("")
+  const [newMessage, setNewMessage] = useState("")
+
+  useEffect(() => {
+    threadService
+      .getAll().then(initialThreads => {
+        setThreads(initialThreads)
+      }).catch(error => {
+        console.log('error', error)
+      })
+  }, [])
+
+  const rows = () => threads.map(t =>
+    <Thread
+      key={t.id}
+      title={t.title}
+      message={t.message}
+    />
+  )
+
+  const addNewThread = (event) => {
+    event.preventDefault()
+
+    const threadObject = {
+      title: newTitle,
+      message: newMessage,
+      date: new Date().toISOString(),
+      id: Math.floor((Math.random() * 10000))
+    }
+
+
+    setNewTitle('')
+    setNewMessage('')
+
+    threadService
+      .create(threadObject)
+      .then(returnedThread => {
+        setThreads(threads.concat(returnedThread))
+      })
   }
+
+
+  return (
+    <div>
+      <h2>Campus24</h2>
+
+      <h3>Threads</h3>
+
+      <ul>
+        {rows()}
+      </ul>
+
+
+      <NewThreadForm addNewThread={addNewThread} setNewTitle={setNewTitle}
+        setNewMessage={setNewMessage} newTitle={newTitle} newMessage={newMessage} />
+
+    </div>
+  )
+
 }
 
-export default App;
+export default App
