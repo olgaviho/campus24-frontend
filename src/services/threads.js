@@ -14,14 +14,11 @@ const create = newObject => {
 }
 
 
-// ei ole testattu
-const update = (id, newObject) => {
-    const request = axios.put(`${baseUrl}/${id}`, newObject)
+const update = (newObject) => {
+    const request = axios.put(`${baseUrl}/${newObject.id}`, newObject)
     return request.then(response => response.data)
 }
 
-
-// ei ole testattu
 const removeThread = (id) => {
     const request = axios.delete(`${baseUrl}/${id}`)
     return request.then(response => response.data)
