@@ -1,8 +1,9 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/threads'
+const baseUrl = '/api/threads'
 
 const getAll = () => {
+    console.log("yriteään saada yhteys")
     const request = axios.get(baseUrl)
     return request.then(response => response.data)
     

@@ -14,6 +14,8 @@ const App = () => {
     threadService
       .getAll().then(initialThreads => {
         setThreads(initialThreads)
+        console.log('hiphei')
+        console.log(threads)
       }).catch(error => {
         console.log('error', error)
       })
@@ -27,6 +29,7 @@ const App = () => {
   }
 
   const rows = () => {
+
     return (
     threads.map(t =>
     <Thread
