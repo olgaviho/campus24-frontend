@@ -24,7 +24,6 @@ const LoginForm = (props) => {
             password
             <input type="password" value={props.password} name='Password'
               onChange={handlePasswordChange} />
-
           </div>
           <div>
             <button type='submit'>login</button>

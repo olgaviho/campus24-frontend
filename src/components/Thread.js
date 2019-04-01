@@ -7,11 +7,19 @@ const Thread = (props) => {
     setEditedMessage(event.target.value)
   }
 
+  if (props.user === null) {
+    return (
+      <div>
+      <h4>{props.title}</h4>
+      <p>Message: {props.message}</p>
+    </div>
+    )
+  }
+
   return (
     <div>
-      <h4>Thread:</h4>
-      <button onClick={() => props.deleteThread(props.id)}> delete </button>
-      <p>Title: {props.title}</p>
+     
+      <h4>{props.title}</h4>
       <p>Message: {props.message}</p>
 
       <form >
@@ -22,6 +30,7 @@ const Thread = (props) => {
         </div>
         <button onClick={() => props.editThread(props.id, editedMessage)}> edit </button>
       </form>
+      <button onClick={() => props.deleteThread(props.id)}> delete </button>
     </div>
   )
 }

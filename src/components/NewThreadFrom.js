@@ -24,7 +24,7 @@ const newThreadForm = (props) => {
               <input value={props.newMessage}
             onChange={handleMessageChange} />
         </div>
-        <button type="submit">add</button>
+        <button type='submit'>add</button>
       </form>
     </div>
   )

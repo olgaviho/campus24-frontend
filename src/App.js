@@ -5,6 +5,7 @@ import threadService from './services/threads'
 import loginService from './services/login'
 import userService from './services/users'
 import LoginForm from './components/Login'
+import NewUserFrom from './components/NewUserForm';
 
 
 const App = () => {
@@ -15,15 +16,18 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [users, setUsers] = useState([])
+  const [newUsername, setNewUsername] = useState('')
+  const [newName, setNewName] = useState('')
+  const [newPassword, setNewPassword] = useState('')
 
-  useEffect(()=> {
+  useEffect(() => {
     userService
       .getAll().then(initialUsers => {
         setUsers(initialUsers)
       }).catch(error => {
         console.log('error', error)
       })
-  },[])
+  }, [])
 
   useEffect(() => {
     threadService
@@ -49,7 +53,7 @@ const App = () => {
       const user = await loginService.login({
         username, password
       })
-      
+
       window.localStorage.setItem(
         'loggedCampus24User', JSON.stringify(user)
       )
@@ -63,11 +67,12 @@ const App = () => {
     }
   }
 
-  const deleteThread = (id) => {
-    threadService
-      .removeThread(id).then(() => {
-        setThreads(threads.filter(thread => thread.id !== id))
-      })
+  const deleteThread = async (id) => {
+    const tr = await threadService.removeThread(id)
+
+    if (tr !== null) {
+      setThreads(threads.filter(thread => thread.id !== id))
+    }
   }
 
   const rows = () => {
@@ -80,12 +85,13 @@ const App = () => {
           message={t.message}
           deleteThread={deleteThread}
           editThread={editThread}
+          user={user}
         />
       )
     )
   }
 
-  const addNewThread = (event) => {
+  const addNewThread = async (event) => {
     event.preventDefault()
     const threadObject = {
       title: newTitle,
@@ -97,27 +103,28 @@ const App = () => {
 
     setNewTitle('')
     setNewMessage('')
-    threadService
-      .create(threadObject)
-      .then(returnedThread => {
-        setThreads(threads.concat(returnedThread))
-      })
+    const tr = await threadService.create(threadObject)
+
+    if (tr !== null) {
+      setThreads(threads.concat(tr))
+    }
   }
 
-  const editThread = (id, editedMessage) => {
+  const editThread = async (id, editedMessage) => {
 
     const newThreadObject = threads.find(t => t.id === id)
     const changedThread = { ...newThreadObject, message: editedMessage }
 
-    threadService
-      .update(changedThread)
-      .then(returnedThread => {
-        setThreads(threads.map(t => t.id !== changedThread.id ? t : returnedThread))
-      })
+    const returnedThread = await threadService.update(changedThread)
+
+    if (returnedThread !== null) {
+      setThreads(threads.map(t => t.id !== changedThread.id ? t : returnedThread))
+    }
   }
 
   const loginFunction = () => (
     <div>
+      <h3>Log in</h3>
       <LoginForm handleLogin={handleLogin} username={username}
         password={password} setUsername={setUsername} setPassword={setPassword} />
     </div>
@@ -126,12 +133,21 @@ const App = () => {
   const handleLogout = () => {
     setUser(null)
     window.localStorage.clear()
+    threadService.removeToken()
   }
+
+  const newUserFunction = () => (
+    <div>
+      <NewUserFrom createNewUser={createNewUser} setNewName={setNewName}
+        setNewUsername={setNewUsername} setNewPassword={setNewPassword}
+        newUsername={newUsername} newName={newName} newPassword={newPassword}/>
+    </div>
+  )
 
   const threadFunction = () => (
     <div>
       <p>Hi {user.name}!</p>
-      <button onClick = {handleLogout}>logout</button>
+      <button onClick={handleLogout}>logout</button>
 
       <NewThreadForm addNewThread={addNewThread} editThread={editThread}
         setNewTitle={setNewTitle} setNewMessage={setNewMessage}
@@ -139,14 +155,30 @@ const App = () => {
     </div>
   )
 
-  const findThreadIdByTitle = (title) => {
-    return threads.find(t => t.title = title)
-  }
+  //const findThreadIdByTitle = (title) => {
+  //  return threads.find(t => t.title = title)
+  //}
 
   const findUserIdByUsername = (username) => {
     return users.find(u => u.username = username)
   }
 
+  const createNewUser = async (event) => {
+    event.preventDefault()
+
+    const newUserObject = {
+      name: newName,
+      username: newUsername,
+      password: newPassword
+    }
+
+    const newUser = await userService.create(newUserObject)
+    users.concat(newUser)
+
+    setNewPassword('')
+    setNewName('')
+    setNewUsername('')  
+  }
 
   return (
 
@@ -159,6 +191,7 @@ const App = () => {
       <ul>
         {rows()}
       </ul>
+      {user === null && newUserFunction()}
     </div>
   )
 }
