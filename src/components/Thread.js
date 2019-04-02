@@ -1,5 +1,7 @@
-import React, {useState} from 'react'
-  
+import React, { useState } from 'react'
+import Comment from './Comment'
+import NewCommentForm from './NewCommentForm';
+
 const Thread = (props) => {
 
   const [editedMessage, setEditedMessage] = useState("")
@@ -7,30 +9,47 @@ const Thread = (props) => {
     setEditedMessage(event.target.value)
   }
 
+
   if (props.user === null) {
     return (
       <div>
-      <h4>{props.title}</h4>
-      <p>Message: {props.message}</p>
-    </div>
+        <h4>{props.thread.title}</h4>
+        <p>Author: {props.thread.user.username}</p>
+        <p>Message: {props.thread.message}</p>
+        <h5>Comments:</h5>
+        {props.thread.comments.map(id =>
+          <Comment
+          id={id}
+          allComments={props.comments} />)}
+
+      </div>
     )
   }
 
   return (
     <div>
-     
-      <h4>{props.title}</h4>
-      <p>Message: {props.message}</p>
-
-      <form >
+      <h4>{props.thread.title}</h4>
+      <p>Author: {props.thread.user.username}</p>
+      <p>Message: {props.thread.message}</p>
+      <form>
         <div>
           new message
           <input value={editedMessage}
-            onChange={handleEditedChange}/>
+            onChange={handleEditedChange} />
         </div>
-        <button onClick={() => props.editThread(props.id, editedMessage)}> edit </button>
+        <button onClick={() => props.editThread(props.thread.id, editedMessage)}> edit </button>
       </form>
-      <button onClick={() => props.deleteThread(props.id)}> delete </button>
+      <button onClick={() => props.deleteThread(props.thread.id)}> delete </button>
+      
+      <h5>Comments:</h5>
+      {props.thread.comments.map(id =>
+          <Comment
+          id={id}
+          allComments={props.comments} />)}
+
+      <NewCommentForm
+      addNewComment = {props.addNewComment}
+      threadId = {props.thread.id}/> 
     </div>
   )
 }

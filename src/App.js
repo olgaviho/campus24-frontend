@@ -3,6 +3,7 @@ import Thread from './components/Thread'
 import NewThreadForm from './components/NewThreadFrom'
 import threadService from './services/threads'
 import loginService from './services/login'
+import commentService from './services/comments'
 import userService from './services/users'
 import LoginForm from './components/Login'
 import NewUserFrom from './components/NewUserForm';
@@ -19,6 +20,7 @@ const App = () => {
   const [newUsername, setNewUsername] = useState('')
   const [newName, setNewName] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [comments, setComments] = useState([])
 
   useEffect(() => {
     userService
@@ -39,13 +41,23 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedCampus24User')
+    commentService
+      .getAll().then(initialComments => {
+        setComments(initialComments)
+      }).catch(error => {
+        console.log('error', error)
+      })
+  }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('Campus24User')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
       threadService.setToken(user.token)
+      commentService.setToken(user.token)
+      setUser(user)
     }
-  })
+  }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -55,9 +67,11 @@ const App = () => {
       })
 
       window.localStorage.setItem(
-        'loggedCampus24User', JSON.stringify(user)
+        'Campus24User', JSON.stringify(user)
       )
+
       threadService.setToken(user.token)
+      commentService.setToken(user.token)
 
       setUser(user)
       setUsername('')
@@ -80,12 +94,12 @@ const App = () => {
       threads.map(t =>
         <Thread
           key={t.id}
-          id={t.id}
-          title={t.title}
-          message={t.message}
+          thread={t}
           deleteThread={deleteThread}
           editThread={editThread}
           user={user}
+          comments={comments}
+          addNewComment={addNewComment}
         />
       )
     )
@@ -97,9 +111,8 @@ const App = () => {
       title: newTitle,
       message: newMessage,
       date: new Date().toISOString(),
-      userId: findUserIdByUsername(user.name).id
+      userId: findUserIdByUsername(user.username).id
     }
-
 
     setNewTitle('')
     setNewMessage('')
@@ -108,6 +121,22 @@ const App = () => {
     if (tr !== null) {
       setThreads(threads.concat(tr))
     }
+  }
+
+  const addNewComment = async (commentMessage, threadId) => {
+    const commentObject = {
+      message: commentMessage,
+      date: new Date().toISOString(),
+      userId: findUserIdByUsername(user.username).id,
+      threadId: threadId
+    }
+
+    const newComment = await commentService.create(commentObject)
+
+    if (newComment !== null) {
+      setComments(comments.concat(newComment))
+    }
+
   }
 
   const editThread = async (id, editedMessage) => {
@@ -134,13 +163,14 @@ const App = () => {
     setUser(null)
     window.localStorage.clear()
     threadService.removeToken()
+    commentService.removeToken()
   }
 
   const newUserFunction = () => (
     <div>
       <NewUserFrom createNewUser={createNewUser} setNewName={setNewName}
         setNewUsername={setNewUsername} setNewPassword={setNewPassword}
-        newUsername={newUsername} newName={newName} newPassword={newPassword}/>
+        newUsername={newUsername} newName={newName} newPassword={newPassword} />
     </div>
   )
 
@@ -155,12 +185,11 @@ const App = () => {
     </div>
   )
 
-  //const findThreadIdByTitle = (title) => {
-  //  return threads.find(t => t.title = title)
-  //}
 
   const findUserIdByUsername = (username) => {
-    return users.find(u => u.username = username)
+    const user = users.find(u => u.username === username)
+    return user
+
   }
 
   const createNewUser = async (event) => {
@@ -177,11 +206,11 @@ const App = () => {
 
     setNewPassword('')
     setNewName('')
-    setNewUsername('')  
+    setNewUsername('')
   }
 
-  return (
 
+  return (
     <div>
       <h2>Campus24</h2>
       {user === null ?
