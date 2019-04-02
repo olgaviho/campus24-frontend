@@ -7,4 +7,7 @@
 | 21.3.2019 | 1  | 10 | tried to put app to heroku |
 | 22.3.2019 | 4  | 14 | put app to heroku and started use mongo.db |
 | 27.3.2019 | 3  | 17 | user can now add new users in backend |
+| 28.3.2019 | 3  | 20 | started use token authorization |
+| 29.3.2019 | 4  | 24 | frontend updated, user can now log in |
+| 1.4.2019 | 4 | 28 | editing and deleting threads use now authorization. User can also add new users in frontend |
 
