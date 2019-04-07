@@ -6,7 +6,9 @@ import loginService from './services/login'
 import commentService from './services/comments'
 import userService from './services/users'
 import LoginForm from './components/Login'
-import NewUserFrom from './components/NewUserForm';
+import NewUserFrom from './components/NewUserForm'
+import Notification from './components/Notification'
+import './index.css'
 
 
 const App = () => {
@@ -21,6 +23,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [comments, setComments] = useState([])
+  const [notMessage, setNotMessage] = useState(null)
+
 
   useEffect(() => {
     userService
@@ -78,6 +82,11 @@ const App = () => {
       setPassword('')
     } catch (e) {
       console.log('error', e)
+      setNotMessage('Login failed')
+      setTimeout(() => {
+        setNotMessage(null)
+      }, 5000)
+
     }
   }
 
@@ -86,6 +95,11 @@ const App = () => {
 
     if (tr !== null) {
       setThreads(threads.filter(thread => thread.id !== id))
+
+      setNotMessage('Thread deleted')
+      setTimeout(() => {
+        setNotMessage(null)
+      }, 5000)
     }
   }
 
@@ -135,6 +149,17 @@ const App = () => {
 
     if (newComment !== null) {
       setComments(comments.concat(newComment))
+      // miksei allaoleva toimi?
+      setNotMessage('New comment added')
+      console.log('notMessage', notMessage)
+      setTimeout(() => {
+        setNotMessage(null)
+      }, 5000)
+    } else {
+      setNotMessage('Could not add new comment')
+      setTimeout(() => {
+        setNotMessage(null)
+      }, 5000)
     }
 
   }
@@ -148,6 +173,7 @@ const App = () => {
 
     if (returnedThread !== null) {
       setThreads(threads.map(t => t.id !== changedThread.id ? t : returnedThread))
+
     }
   }
 
@@ -176,8 +202,8 @@ const App = () => {
 
   const threadFunction = () => (
     <div>
-      <p>Hi {user.name}!</p>
-      <button onClick={handleLogout}>logout</button>
+      <p>Hi {user.name}!
+        <button onClick={handleLogout}>logout</button> </p>
 
       <NewThreadForm addNewThread={addNewThread} editThread={editThread}
         setNewTitle={setNewTitle} setNewMessage={setNewMessage}
@@ -202,27 +228,43 @@ const App = () => {
     }
 
     const newUser = await userService.create(newUserObject)
-    users.concat(newUser)
 
-    setNewPassword('')
-    setNewName('')
-    setNewUsername('')
+    if (user !== null) {
+      users.concat(newUser)
+      setNewPassword('')
+      setNewName('')
+      setNewUsername('')
+
+      setNotMessage('New user added')
+      setTimeout(() => {
+        setNotMessage(null)
+      }, 5000)
+    }
+    console.log('error')
+    setNotMessage('Could not create new user')
+    setTimeout(() => {
+      setNotMessage(null)
+    }, 5000)
+
   }
 
 
   return (
     <div>
-      <h2>Campus24</h2>
+      <h1>Campus24</h1>
+      {notMessage !== null && <Notification message={notMessage} />}
+
       {user === null ?
         loginFunction() :
         threadFunction()}
-      <h3>Threads</h3>
+      <h2>Threads</h2>
       <ul>
         {rows()}
       </ul>
       {user === null && newUserFunction()}
     </div>
   )
+
 }
 
 export default App

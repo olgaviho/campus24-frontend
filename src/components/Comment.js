@@ -13,8 +13,7 @@ const Comment = (props) => {
     return (
       <div>
         <p>Message: {comment.message}</p>
-        <p>Author: {comment.user.username}</p>
-        <p>Date: {comment.date}</p>
+        <p>Author: {comment.user.username} Date: {comment.date}</p>
 
       </div>
     )

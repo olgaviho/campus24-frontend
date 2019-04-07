@@ -18,23 +18,23 @@ const NewUserFrom = (props) => {
   return (
     <div>
       <h3>Create new user</h3>
-      <form onSubmit = {props.createNewUser}>
-      <div>
-        username
-        <input type = 'text' value = {props.newUsername} name = 'newUsername'
-        onChange = {handleNewUsernameChange}/>
+      <form onSubmit={props.createNewUser}>
+        <div>
+          username
+          <input type='text' value={props.newUsername} name='newUsername'
+            onChange={handleNewUsernameChange} />
         </div>
         <div>
-        name
-        <input type = 'text' value = {props.newName} name = 'newName'
-        onChange = {handleNewNameChange}/>
+          name
+          <input type='text' value={props.newName} name='newName'
+            onChange={handleNewNameChange} />
         </div>
         <div>
-        password
-        <input type = 'password' value = {props.newPassword} name ='newPassword'
-        onChange={handleNewPasswordChange}/>
+          password
+          <input type='password' value={props.newPassword} name='newPassword'
+            onChange={handleNewPasswordChange} />
         </div>
-        <button type = 'submit'>Add a new user</button>
+        <button type='submit'>Add a new user</button>
       </form>
     </div>
   )

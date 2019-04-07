@@ -10,5 +10,7 @@
 | 28.3.2019 | 3  | 20 | started use token authorization |
 | 29.3.2019 | 4  | 24 | frontend updated, user can now log in |
 | 1.4.2019 | 4 | 28 | editing and deleting threads use now authorization. User can also add new users in frontend |
-| 1.4.2019 | 4 | 32 | user can now add new comments |
+| 2.4.2019 | 4 | 32 | user can now add new comments |
+| 6.4.2919 | 2 | 34 | added notification |
+| 7.4.2019 | 1 | 35 | started use eslint |
 

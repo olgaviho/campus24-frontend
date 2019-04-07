@@ -16,12 +16,12 @@ const newThreadForm = (props) => {
       <form onSubmit={props.addNewThread}>
         <div>
           title:
-              <input value={props.newTitle}
+          <input value={props.newTitle}
             onChange={handleTitleChange} />
         </div>
         <div>
           message:
-              <input value={props.newMessage}
+          <input value={props.newMessage}
             onChange={handleMessageChange} />
         </div>
         <button type='submit'>add</button>

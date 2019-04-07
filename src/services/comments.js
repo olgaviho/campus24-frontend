@@ -19,15 +19,15 @@ const getAll = () => {
 
 const create = async (newObject) => {
 
-    if (token !== null) {
-      const config = {
-        headers: { Authorization: token },
-      }
-      const response = await axios.post(baseUrl, newObject, config)
-      return response.data
+  if (token !== null) {
+    const config = {
+      headers: { Authorization: token },
     }
-    return null
+    const response = await axios.post(baseUrl, newObject, config)
+    return response.data
   }
+  return null
+}
 
 
 export default {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const newCommentForm = (props) => {
-  const [commentMessage, setCommentMessage] = useState("")
+  const [commentMessage, setCommentMessage] = useState('')
 
   const handleMessageChange = (event) => {
     setCommentMessage(event.target.value)
@@ -10,11 +10,11 @@ const newCommentForm = (props) => {
 
   return (
     <div>
-      <h3>Add new comment</h3>
+      <h4>Add new comment</h4>
       <form>
         <div>
           message:
-              <input value={commentMessage}
+          <input value={commentMessage}
             onChange={handleMessageChange} />
         </div>
         <button onClick={() => props.addNewComment(commentMessage, props.threadId)}>add</button>
