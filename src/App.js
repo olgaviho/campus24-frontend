@@ -9,49 +9,29 @@ import LoginForm from './components/Login'
 import NewUserFrom from './components/NewUserForm'
 import Notification from './components/Notification'
 import './index.css'
+import { connect } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
+import { initializeThreads, addThread, deleteThread, editThread } from './reducers/threadReducer'
+import { initializeComments, addComment, } from './reducers/commentsReducer'
+import { initializeUsers, addUser } from './reducers/usersReducer'
 
-
-const App = () => {
-  const [threads, setThreads] = useState([])
+const App = (props) => {
   const [newTitle, setNewTitle] = useState('')
   const [newMessage, setNewMessage] = useState('')
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [users, setUsers] = useState([])
   const [newUsername, setNewUsername] = useState('')
   const [newName, setNewName] = useState('')
   const [newPassword, setNewPassword] = useState('')
-  const [comments, setComments] = useState([])
-  const [notMessage, setNotMessage] = useState(null)
 
 
   useEffect(() => {
-    userService
-      .getAll().then(initialUsers => {
-        setUsers(initialUsers)
-      }).catch(error => {
-        console.log('error', error)
-      })
+    props.initializeThreads()
+    props.initializeComments()
+    props.initializeUsers()
   }, [])
 
-  useEffect(() => {
-    threadService
-      .getAll().then(initialThreads => {
-        setThreads(initialThreads)
-      }).catch(error => {
-        console.log('error', error)
-      })
-  }, [])
-
-  useEffect(() => {
-    commentService
-      .getAll().then(initialComments => {
-        setComments(initialComments)
-      }).catch(error => {
-        console.log('error', error)
-      })
-  }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('Campus24User')
@@ -73,46 +53,35 @@ const App = () => {
       window.localStorage.setItem(
         'Campus24User', JSON.stringify(user)
       )
-
       threadService.setToken(user.token)
       commentService.setToken(user.token)
 
       setUser(user)
       setUsername('')
       setPassword('')
+      props.setNotification('Welcome!')
     } catch (e) {
-      console.log('error', e)
-      setNotMessage('Login failed')
-      setTimeout(() => {
-        setNotMessage(null)
-      }, 5000)
-
+      props.setNotification('Login failed')
     }
   }
 
   const deleteThread = async (id) => {
-    const tr = await threadService.removeThread(id)
+    // ei päivitä saman tien
+    props.deleteThread(id)
+    props.setNotification('Thread deleted')
 
-    if (tr !== null) {
-      setThreads(threads.filter(thread => thread.id !== id))
-
-      setNotMessage('Thread deleted')
-      setTimeout(() => {
-        setNotMessage(null)
-      }, 5000)
-    }
   }
 
   const rows = () => {
     return (
-      threads.map(t =>
+      props.threads.map(t =>
         <Thread
           key={t.id}
           thread={t}
           deleteThread={deleteThread}
           editThread={editThread}
           user={user}
-          comments={comments}
+          comments={props.comments}
           addNewComment={addNewComment}
         />
       )
@@ -130,11 +99,10 @@ const App = () => {
 
     setNewTitle('')
     setNewMessage('')
-    const tr = await threadService.create(threadObject)
+    // ominaisuudet eivät ole heti näkyvissä
+    props.addThread(threadObject)
+    props.setNotification('New thread added')
 
-    if (tr !== null) {
-      setThreads(threads.concat(tr))
-    }
   }
 
   const addNewComment = async (commentMessage, threadId) => {
@@ -144,37 +112,20 @@ const App = () => {
       userId: findUserIdByUsername(user.username).id,
       threadId: threadId
     }
-
-    const newComment = await commentService.create(commentObject)
-
-    if (newComment !== null) {
-      setComments(comments.concat(newComment))
-      // miksei allaoleva toimi?
-      setNotMessage('New comment added')
-      console.log('notMessage', notMessage)
-      setTimeout(() => {
-        setNotMessage(null)
-      }, 5000)
-    } else {
-      setNotMessage('Could not add new comment')
-      setTimeout(() => {
-        setNotMessage(null)
-      }, 5000)
-    }
+    props.addComment(commentObject)
+    // ei toimi notificaatio!
+    props.setNotification('New comment added')
 
   }
 
+
   const editThread = async (id, editedMessage) => {
 
-    const newThreadObject = threads.find(t => t.id === id)
+    const newThreadObject = props.threads.find(t => t.id === id)
     const changedThread = { ...newThreadObject, message: editedMessage }
+    props.editThread(changedThread)
+    props.setNotification('Thread edited')
 
-    const returnedThread = await threadService.update(changedThread)
-
-    if (returnedThread !== null) {
-      setThreads(threads.map(t => t.id !== changedThread.id ? t : returnedThread))
-
-    }
   }
 
   const loginFunction = () => (
@@ -190,6 +141,7 @@ const App = () => {
     window.localStorage.clear()
     threadService.removeToken()
     commentService.removeToken()
+    props.setNotification('See you soon!')
   }
 
   const newUserFunction = () => (
@@ -213,7 +165,7 @@ const App = () => {
 
 
   const findUserIdByUsername = (username) => {
-    const user = users.find(u => u.username === username)
+    const user = props.users.find(u => u.username === username)
     return user
 
   }
@@ -227,32 +179,18 @@ const App = () => {
       password: newPassword
     }
 
-    const newUser = await userService.create(newUserObject)
-
-    if (user !== null) {
-      users.concat(newUser)
-      setNewPassword('')
-      setNewName('')
-      setNewUsername('')
-
-      setNotMessage('New user added')
-      setTimeout(() => {
-        setNotMessage(null)
-      }, 5000)
-    }
-    console.log('error')
-    setNotMessage('Could not create new user')
-    setTimeout(() => {
-      setNotMessage(null)
-    }, 5000)
-
+    props.addUser(newUserObject)
+    props.setNotification('New user added!')
+    setNewName('')
+    setNewPassword('')
+    setNewUsername('')
   }
 
 
   return (
     <div>
       <h1>Campus24</h1>
-      {notMessage !== null && <Notification message={notMessage} />}
+      {props.notification !== null && <Notification />}
 
       {user === null ?
         loginFunction() :
@@ -267,4 +205,25 @@ const App = () => {
 
 }
 
-export default App
+const mapDispatchToProps = {
+  setNotification,
+  deleteThread,
+  editThread,
+  addThread,
+  initializeThreads,
+  initializeComments,
+  addComment,
+  initializeUsers,
+  addUser
+}
+
+const mapStateToProps = (state) => {
+  return {
+    notification: state.notification,
+    threads: state.threads,
+    comments: state.comments,
+    users: state.users
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
