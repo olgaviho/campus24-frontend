@@ -7,7 +7,6 @@ const newCommentForm = (props) => {
     setCommentMessage(event.target.value)
   }
 
-
   return (
     <div>
       <h4>Add new comment</h4>

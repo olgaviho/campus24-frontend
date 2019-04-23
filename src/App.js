@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import Thread from './components/Thread'
-import NewThreadForm from './components/NewThreadFrom'
-import threadService from './services/threads'
-import loginService from './services/login'
-import commentService from './services/comments'
-import userService from './services/users'
+import NewThreadForm from './components/NewThreadForm'
 import LoginForm from './components/Login'
 import NewUserFrom from './components/NewUserForm'
 import Notification from './components/Notification'
+import AllThreads from './components/AllThreads'
+import Logout from './components/Logout'
+
 import './index.css'
 import { connect } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeThreads, addThread, deleteThread, editThread } from './reducers/threadReducer'
 import { initializeComments, addComment, } from './reducers/commentsReducer'
 import { initializeUsers, addUser } from './reducers/usersReducer'
+import { setUser, login, logout } from './reducers/loginReducer'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 const App = (props) => {
   const [newTitle, setNewTitle] = useState('')
   const [newMessage, setNewMessage] = useState('')
-  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [newUsername, setNewUsername] = useState('')
@@ -37,32 +36,22 @@ const App = (props) => {
     const loggedUserJSON = window.localStorage.getItem('Campus24User')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      threadService.setToken(user.token)
-      commentService.setToken(user.token)
-      setUser(user)
+
+      props.setUser(user)
     }
   }, [])
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password
-      })
-
-      window.localStorage.setItem(
-        'Campus24User', JSON.stringify(user)
-      )
-      threadService.setToken(user.token)
-      commentService.setToken(user.token)
-
-      setUser(user)
-      setUsername('')
-      setPassword('')
-      props.setNotification('Welcome!')
-    } catch (e) {
-      props.setNotification('Login failed')
+    const user = {
+      username: username,
+      password: password
     }
+
+    await props.login(user)
+    // alla oleva ei toimi....
+    props.setNotification('Welcome!')
+
   }
 
   const deleteThread = async (id) => {
@@ -72,29 +61,13 @@ const App = (props) => {
 
   }
 
-  const rows = () => {
-    return (
-      props.threads.map(t =>
-        <Thread
-          key={t.id}
-          thread={t}
-          deleteThread={deleteThread}
-          editThread={editThread}
-          user={user}
-          comments={props.comments}
-          addNewComment={addNewComment}
-        />
-      )
-    )
-  }
-
   const addNewThread = async (event) => {
     event.preventDefault()
     const threadObject = {
       title: newTitle,
       message: newMessage,
       date: new Date().toISOString(),
-      userId: findUserIdByUsername(user.username).id
+      userId: findUserIdByUsername(props.user.username).id
     }
 
     setNewTitle('')
@@ -109,7 +82,7 @@ const App = (props) => {
     const commentObject = {
       message: commentMessage,
       date: new Date().toISOString(),
-      userId: findUserIdByUsername(user.username).id,
+      userId: findUserIdByUsername(props.user.username).id,
       threadId: threadId
     }
     props.addComment(commentObject)
@@ -117,7 +90,6 @@ const App = (props) => {
     props.setNotification('New comment added')
 
   }
-
 
   const editThread = async (id, editedMessage) => {
 
@@ -128,41 +100,10 @@ const App = (props) => {
 
   }
 
-  const loginFunction = () => (
-    <div>
-      <h3>Log in</h3>
-      <LoginForm handleLogin={handleLogin} username={username}
-        password={password} setUsername={setUsername} setPassword={setPassword} />
-    </div>
-  )
-
   const handleLogout = () => {
-    setUser(null)
-    window.localStorage.clear()
-    threadService.removeToken()
-    commentService.removeToken()
+    props.logout()
     props.setNotification('See you soon!')
   }
-
-  const newUserFunction = () => (
-    <div>
-      <NewUserFrom createNewUser={createNewUser} setNewName={setNewName}
-        setNewUsername={setNewUsername} setNewPassword={setNewPassword}
-        newUsername={newUsername} newName={newName} newPassword={newPassword} />
-    </div>
-  )
-
-  const threadFunction = () => (
-    <div>
-      <p>Hi {user.name}!
-        <button onClick={handleLogout}>logout</button> </p>
-
-      <NewThreadForm addNewThread={addNewThread} editThread={editThread}
-        setNewTitle={setNewTitle} setNewMessage={setNewMessage}
-        newTitle={newTitle} newMessage={newMessage} />
-    </div>
-  )
-
 
   const findUserIdByUsername = (username) => {
     const user = props.users.find(u => u.username === username)
@@ -186,23 +127,32 @@ const App = (props) => {
     setNewUsername('')
   }
 
+  const padding = { padding: 5 }
+
 
   return (
     <div>
-      <h1>Campus24</h1>
-      {props.notification !== null && <Notification />}
-
-      {user === null ?
-        loginFunction() :
-        threadFunction()}
-      <h2>Threads</h2>
-      <ul>
-        {rows()}
-      </ul>
-      {user === null && newUserFunction()}
+      <Router>
+        <div>
+          <div>
+            <Link style={padding} to="/">Threads</Link>
+            {props.user === null &&
+              <Link style={padding} to="/login">Login</Link>}
+            {props.user === null &&
+              <Link style={padding} to="/create">Create new user</Link>}
+            {props.user !== null && <Link style={padding} to="/logout">Logout</Link>}
+            {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
+            {props.notification !== null && <Notification />}
+          </div>
+          <Route exact path="/" render={() => <AllThreads deleteThread={deleteThread} addNewComment={addNewComment} editThread={editThread} />} />
+          <Route exact path="/login" render={() => <LoginForm setPassword={setPassword} setUsername={setUsername} handleLogin={handleLogin} />} />
+          <Route exact path="/create" render={() => <NewUserFrom createNewUser={createNewUser} />} />
+          <Route exact path="/logout" render={() => <Logout handleLogout={handleLogout} />} />
+          <Route exact path="/addNewThread" render={() => <NewThreadForm addNewThread={addNewThread} setNewMessage={setNewMessage} setNewTitle={setNewTitle} set />} />
+        </div>
+      </Router>
     </div>
   )
-
 }
 
 const mapDispatchToProps = {
@@ -214,7 +164,10 @@ const mapDispatchToProps = {
   initializeComments,
   addComment,
   initializeUsers,
-  addUser
+  addUser,
+  login,
+  logout,
+  setUser
 }
 
 const mapStateToProps = (state) => {
@@ -222,7 +175,8 @@ const mapStateToProps = (state) => {
     notification: state.notification,
     threads: state.threads,
     comments: state.comments,
-    users: state.users
+    users: state.users,
+    user: state.user
   }
 }
 

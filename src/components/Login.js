@@ -1,6 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
 const LoginForm = (props) => {
+
+  if (props.user !== null) {
+    return (
+      <div>
+        <Redirect to="/" />
+      </div>
+    )
+  }
 
 
   const handleUsernameChange = (event) => {
@@ -13,7 +23,9 @@ const LoginForm = (props) => {
 
   return (
     <div>
+      <h2>Login</h2>
       <form onSubmit={props.handleLogin}>
+
         <div>
           username
           <input type="text" value={props.username} name='Username'
@@ -25,6 +37,7 @@ const LoginForm = (props) => {
           <input type="password" value={props.password} name='Password'
             onChange={handlePasswordChange} />
         </div>
+
         <div>
           <button type='submit'>login</button>
         </div>
@@ -35,4 +48,10 @@ const LoginForm = (props) => {
 
 }
 
-export default LoginForm
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, null)(LoginForm)

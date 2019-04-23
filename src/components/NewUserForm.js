@@ -1,6 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 
-const NewUserFrom = (props) => {
+const NewUserForm = (props) => {
+
+
+  if (props.user !== null) {
+    return (
+      <div>
+        <Redirect to="/" />
+      </div>
+    )
+  }
 
   const handleNewNameChange = (event) => {
     props.setNewName(event.target.value)
@@ -40,4 +51,10 @@ const NewUserFrom = (props) => {
   )
 }
 
-export default NewUserFrom
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, null)(NewUserForm)

@@ -13,4 +13,5 @@
 | 2.4.2019 | 4 | 32 | user can now add new comments |
 | 6.4.2919 | 2 | 34 | added notification |
 | 7.4.2019 | 1 | 35 | started use eslint |
-| 22.4.2019 | 3,5 | 38,5 | staerted use redux, added reducer to notifications, users, threads and comments |
+| 22.4.2019 | 3,5 | 38,5 | started use redux, added reducer to notifications, users, threads and comments |
+| 23.4.2019 | 3,5 | 42 | added loginReducer and started use react router |
