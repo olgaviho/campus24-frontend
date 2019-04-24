@@ -1,31 +1,62 @@
 import React, { useState } from 'react'
 import Comment from './Comment'
 import NewCommentForm from './NewCommentForm'
+import { connect } from 'react-redux'
+import { deleteThread, editThread } from './../reducers/threadReducer'
+import { setNotification } from './../reducers/notificationReducer'
+import { Redirect } from 'react-router-dom'
 
 const Thread = (props) => {
 
+  const [changeDone, setChangeDone] = useState(false)
   const [editedMessage, setEditedMessage] = useState('')
   const handleEditedChange = (event) => {
     setEditedMessage(event.target.value)
   }
 
-  //tämä kertoo ongelman?
-  //console.log('props.thread.user.username', props.thread.user.username)
+  if (changeDone) {
+    return (
+      <div>
+        <Redirect to="/" />
+      </div>
+    )
+  }
+
+  if (props.thread === undefined) {
+    return (
+      null
+    )
+  }
+
+
+  // poisto ei toimi näppärästi
+  const deleteThread = async (id) => {
+    props.deleteThread(id)
+    props.setNotification('Thread deleted')
+    setChangeDone(true)
+  }
+
+  const editThread = async (id) => {
+
+    const newThreadObject = props.threads.find(t => t.id === id)
+    const changedThread = { ...newThreadObject, message: editedMessage }
+    props.editThread(changedThread)
+    props.setNotification('Thread edited')
+  }
+
 
 
   if (props.user === null) {
     return (
       <div>
         <h3>{props.thread.title}</h3>
-        <p>Author: {props.thread.user.username}</p>
-        <p>Message: {props.thread.message}</p>
         <h4>Comments:</h4>
         {props.thread.comments.map(id =>
           <Comment
             key={id}
             id={id}
-            allComments={props.comments} />)}
-
+            allComments={props.comments} />
+        )}
       </div>
     )
   }
@@ -38,26 +69,21 @@ const Thread = (props) => {
           <input value={editedMessage}
             onChange={handleEditedChange} />
         </div>
-        <button onClick={() => props.editThread(props.thread.id, editedMessage)}> edit </button>
+        <button onClick={() => editThread(props.thread.id, editedMessage)}> edit </button>
       </form>
-      <button onClick={() => props.deleteThread(props.thread.id)}> delete </button>
+      <button onClick={() => deleteThread(props.thread.id)}> delete </button>
     </div>
 
   )
 
 
-  //console.log('props.user.username', props.user.username)
-  //console.log('props.thread.user.username', props.thread.user.username)
-  //const juttu = props.user.username === props.thread.user.username
-  //console.log(juttu)
-
   return (
     <div>
       <h3>{props.thread.title}</h3>
-      <p>Author: {props.thread.user.username}</p>
-      <p>Message: {props.thread.message}</p>
+      <h4>Message: {props.thread.message}</h4>
+      Author: {props.thread.user.username}
 
-      {props.user.username === props.thread.user.username && buttonFunction()}
+      {props.thread.user.username === props.user.username && buttonFunction()}
 
       <h4>Comments:</h4>
       {props.thread.comments.map(id =>
@@ -67,10 +93,26 @@ const Thread = (props) => {
           allComments={props.comments} />)}
 
       <NewCommentForm
-        addNewComment={props.addNewComment}
+        findUserIdByUsername={props.findUserIdByUsername}
         threadId={props.thread.id} />
     </div>
   )
 }
 
-export default Thread
+const mapDispatchToProps = {
+  deleteThread,
+  editThread,
+  setNotification
+}
+
+const mapStateToProps = (state) => {
+  return {
+    notification: state.notification,
+    threads: state.threads,
+    comments: state.comments,
+    users: state.users,
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Thread)

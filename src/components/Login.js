@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { login } from './../reducers/loginReducer'
+import { setNotification } from './../reducers/notificationReducer'
 
 const LoginForm = (props) => {
 
@@ -12,29 +14,45 @@ const LoginForm = (props) => {
     )
   }
 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    const user = {
+      username: username,
+      password: password
+    }
+
+    await props.login(user)
+    // entäs jos kirjautuminen epäonnistuu...
+    props.setNotification('Welcome!')
+
+  }
+
 
   const handleUsernameChange = (event) => {
-    props.setUsername(event.target.value)
+    setUsername(event.target.value)
   }
 
   const handlePasswordChange = (event) => {
-    props.setPassword(event.target.value)
+    setPassword(event.target.value)
   }
 
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={props.handleLogin}>
+      <form onSubmit={handleLogin}>
 
         <div>
           username
-          <input type="text" value={props.username} name='Username'
+          <input type="text" value={username} name='Username'
             onChange={handleUsernameChange} />
         </div>
 
         <div>
           password
-          <input type="password" value={props.password} name='Password'
+          <input type="password" value={password} name='Password'
             onChange={handlePasswordChange} />
         </div>
 
@@ -48,10 +66,15 @@ const LoginForm = (props) => {
 
 }
 
+const mapDispatchToProps = {
+  setNotification,
+  login
+}
+
 const mapStateToProps = (state) => {
   return {
     user: state.user
   }
 }
 
-export default connect(mapStateToProps, null)(LoginForm)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

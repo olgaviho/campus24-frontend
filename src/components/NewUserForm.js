@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { addUser } from './../reducers/usersReducer'
+import { setNotification } from './../reducers/notificationReducer'
 
 const NewUserForm = (props) => {
 
@@ -13,36 +15,56 @@ const NewUserForm = (props) => {
     )
   }
 
+  const [newUsername, setNewUsername] = useState('')
+  const [newName, setNewName] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+
   const handleNewNameChange = (event) => {
-    props.setNewName(event.target.value)
+    setNewName(event.target.value)
   }
 
   const handleNewUsernameChange = (event) => {
-    props.setNewUsername(event.target.value)
+    setNewUsername(event.target.value)
 
   }
 
   const handleNewPasswordChange = (event) => {
-    props.setNewPassword(event.target.value)
+    setNewPassword(event.target.value)
+  }
+
+  const createNewUser = async (event) => {
+    event.preventDefault()
+
+    const newUserObject = {
+      name: newName,
+      username: newUsername,
+      password: newPassword
+    }
+
+    props.addUser(newUserObject)
+    props.setNotification('New user added!')
+    setNewName('')
+    setNewPassword('')
+    setNewUsername('')
   }
 
   return (
     <div>
       <h3>Create new user</h3>
-      <form onSubmit={props.createNewUser}>
+      <form onSubmit={createNewUser}>
         <div>
           username
-          <input type='text' value={props.newUsername} name='newUsername'
+          <input type='text' value={newUsername} name='newUsername'
             onChange={handleNewUsernameChange} />
         </div>
         <div>
           name
-          <input type='text' value={props.newName} name='newName'
+          <input type='text' value={newName} name='newName'
             onChange={handleNewNameChange} />
         </div>
         <div>
           password
-          <input type='password' value={props.newPassword} name='newPassword'
+          <input type='password' value={newPassword} name='newPassword'
             onChange={handleNewPasswordChange} />
         </div>
         <button type='submit'>Add a new user</button>
@@ -51,10 +73,15 @@ const NewUserForm = (props) => {
   )
 }
 
+const mapDispatchToProps = {
+  addUser,
+  setNotification
+}
+
 const mapStateToProps = (state) => {
   return {
     user: state.user
   }
 }
 
-export default connect(mapStateToProps, null)(NewUserForm)
+export default connect(mapStateToProps, mapDispatchToProps)(NewUserForm)

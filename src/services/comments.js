@@ -29,10 +29,38 @@ const create = async (newObject) => {
   return null
 }
 
+// ei testattu
+const update = async (updatedObject) => {
+  if (token!== null) {
+    const config = {
+      headers: { Authorization: token },
+    }
+
+    const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject, config)
+
+    return response.data
+  } return null
+}
+
+// ei testattu
+const removeComment = async (id) => {
+  if (token!==null) {
+    const config = {
+      headers: { Authorization: token },
+    }
+
+    const response = await axios.delete(`${baseUrl}/${id}`, config)
+    return response.data
+  } return null
+
+}
+
 
 export default {
   getAll,
   create,
   setToken,
-  removeToken
+  removeToken,
+  update,
+  removeComment
 }

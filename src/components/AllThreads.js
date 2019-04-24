@@ -1,21 +1,18 @@
 import React from 'react'
-import Thread from './Thread'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const allThreads = (props) => {
 
   return (
-    props.threads.map(t =>
-      <Thread
-        key={t.id}
-        thread={t}
-        deleteThread={props.deleteThread}
-        editThread={props.editThread}
-        user={props.user}
-        comments={props.comments}
-        addNewComment={props.addNewComment}
-      />
-    )
+    <div>
+      <h2>Threads</h2>
+      {props.threads.map(t =>
+        <li key={t.id}>
+          <Link key={t.id} to={`/threads/${t.id}`}> {t.title} </Link>
+        </li>
+      )}
+    </div>
   )
 }
 
