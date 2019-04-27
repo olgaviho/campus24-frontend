@@ -29,6 +29,7 @@ export const setUser = (data) => {
 export const login = (data) => {
   return async dispatch => {
     const user = await loginService.login(data)
+
     window.localStorage.setItem(
       'Campus24User', JSON.stringify(user)
     )

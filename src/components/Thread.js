@@ -28,8 +28,6 @@ const Thread = (props) => {
     )
   }
 
-
-  // poisto ei toimi näppärästi
   const deleteThread = async (id) => {
     props.deleteThread(id)
     props.setNotification('Thread deleted')
@@ -73,8 +71,24 @@ const Thread = (props) => {
       </form>
       <button onClick={() => deleteThread(props.thread.id)}> delete </button>
     </div>
-
   )
+
+
+
+  let showButtons = false
+
+
+  // älä muokkaa, menee kuitenkin pieleen !!
+  if (props.thread.user.username !== undefined) {
+    if (props.thread.user.username === props.user.username) {
+      showButtons = true
+    }
+  } else {
+    const createdUser = props.users.find(u => u.id === props.thread.user)
+    if (createdUser.username === props.user.username) {
+      showButtons = true
+    }
+  }
 
 
   return (
@@ -83,7 +97,7 @@ const Thread = (props) => {
       <h4>Message: {props.thread.message}</h4>
       Author: {props.thread.user.username}
 
-      {props.thread.user.username === props.user.username && buttonFunction()}
+      {showButtons && buttonFunction()}
 
       <h4>Comments:</h4>
       {props.thread.comments.map(id =>
