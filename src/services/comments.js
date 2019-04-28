@@ -23,14 +23,16 @@ const create = async (newObject) => {
     const config = {
       headers: { Authorization: token },
     }
+      
     const response = await axios.post(baseUrl, newObject, config)
     return response.data
   }
   return null
 }
 
-// ei testattu
+
 const update = async (updatedObject) => {
+
   if (token!== null) {
     const config = {
       headers: { Authorization: token },
@@ -39,11 +41,13 @@ const update = async (updatedObject) => {
     const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject, config)
 
     return response.data
-  } return null
+  }
+
+  return null
 }
 
-// ei testattu
 const removeComment = async (id) => {
+
   if (token!==null) {
     const config = {
       headers: { Authorization: token },
@@ -51,8 +55,8 @@ const removeComment = async (id) => {
 
     const response = await axios.delete(`${baseUrl}/${id}`, config)
     return response.data
-  } return null
-
+  }
+  return null
 }
 
 

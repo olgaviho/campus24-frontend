@@ -10,6 +10,7 @@ const Thread = (props) => {
 
   const [changeDone, setChangeDone] = useState(false)
   const [editedMessage, setEditedMessage] = useState('')
+  
   const handleEditedChange = (event) => {
     setEditedMessage(event.target.value)
   }
@@ -29,17 +30,30 @@ const Thread = (props) => {
   }
 
   const deleteThread = async (id) => {
-    props.deleteThread(id)
-    props.setNotification('Thread deleted')
-    setChangeDone(true)
+
+    try {
+      await props.deleteThread(id)
+      props.setNotification('Thread deleted')
+      setChangeDone(true)
+    } catch (e) {
+      console.log(e)
+      props.setNotification('Failed to delete thread')
+    }
   }
 
   const editThread = async (id) => {
 
     const newThreadObject = props.threads.find(t => t.id === id)
     const changedThread = { ...newThreadObject, message: editedMessage }
-    props.editThread(changedThread)
-    props.setNotification('Thread edited')
+
+    try {
+      await props.editThread(changedThread)
+      props.setNotification('Thread edited')
+
+    } catch (e) {
+      console.log(e)
+      props.setNotification('Failed to edit thread')
+    }
   }
 
 

@@ -21,10 +21,11 @@ const App = (props) => {
     props.initializeThreads()
     props.initializeComments()
     props.initializeUsers()
+
     const loggedUserJSON = window.localStorage.getItem('Campus24User')
+    
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-
       props.setUser(user)
     }
   }, [])

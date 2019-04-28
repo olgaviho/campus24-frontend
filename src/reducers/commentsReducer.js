@@ -44,6 +44,7 @@ export const addComment = (data) => {
 export const editComment = (data) => {
   return async dispatch => {
     const editedComment = await commentService.update(data)
+
     dispatch({
       type: 'EDIT_COMMENT',
       data: editedComment
@@ -52,8 +53,11 @@ export const editComment = (data) => {
 }
 
 export const deleteComment = (data) => {
+  console.log('ööö ok', data)
   return async dispatch => {
+    console.log('dispatch')
     await commentService.removeComment(data)
+    console.log('commentservice remove')
     dispatch({
       type: 'DELETE_COMMENT',
       data: data

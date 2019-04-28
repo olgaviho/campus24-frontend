@@ -41,11 +41,16 @@ const NewUserForm = (props) => {
       password: newPassword
     }
 
-    props.addUser(newUserObject)
-    props.setNotification('New user added!')
     setNewName('')
     setNewPassword('')
     setNewUsername('')
+
+    try {
+      await props.addUser(newUserObject)
+      props.setNotification('New user added!')
+    } catch (e) {
+      props.setNotification('Username must be unique')
+    }
   }
 
   return (

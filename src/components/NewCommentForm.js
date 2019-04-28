@@ -5,7 +5,6 @@ import { addComment } from './../reducers/commentsReducer'
 
 const newCommentForm = (props) => {
 
-
   const [commentMessage, setCommentMessage] = useState('')
 
   const handleMessageChange = (event) => {
@@ -19,9 +18,13 @@ const newCommentForm = (props) => {
       userId: props.findUserIdByUsername(props.user.username).id,
       threadId: props.threadId
     }
-
-    props.addComment(commentObject)
-    props.setNotification('New comment added')
+    try {
+      await props.addComment(commentObject)
+      props.setNotification('New comment added')
+    } catch (e) {
+      console.log(e)
+      props.setNotification('Failed to create new comment')
+    }
   }
 
   return (

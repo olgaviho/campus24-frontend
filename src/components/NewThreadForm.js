@@ -5,7 +5,6 @@ import { addThread } from './../reducers/threadReducer'
 
 const newThreadForm = (props) => {
 
-  console.log('props', props)
 
   const [newTitle, setNewTitle] = useState('')
   const [newMessage, setNewMessage] = useState('')
@@ -27,14 +26,18 @@ const newThreadForm = (props) => {
       userId: props.findUserIdByUsername(props.user.username).id
     }
 
-    console.log('threadobject', threadObject)
 
     setNewTitle('')
     setNewMessage('')
-    // ominaisuudet eivät ole heti näkyvissä
-    props.addThread(threadObject)
-    props.setNotification('New thread added')
 
+
+    try {
+      await props.addThread(threadObject)
+      props.setNotification('New thread added')
+    } catch (e) {
+      console.log(e)
+      props.setNotification('Failed to create new comment')
+    }
   }
 
   return (

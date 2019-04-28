@@ -17,8 +17,15 @@ const Logout = (props) => {
   }
 
   const handleLogout = () => {
-    props.logout()
-    props.setNotification('See you soon!')
+
+    try {
+      props.logout()
+      props.setNotification('See you soon!')
+
+    } catch (e) {
+      console.log(e)
+      props.setNotification('Logout failed!')
+    }
   }
 
   return (

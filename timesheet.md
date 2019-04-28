@@ -17,3 +17,4 @@
 | 23.4.2019 | 3,5 | 42 | added loginReducer and started use react router |
 | 24.4.2019 | 3,5 | 45,5 | cleaned code |
 | 27.4.2019 | 1 | 46,5 | fixed bugs |
+| 28.4.2019 | 2,5 | 49,0 | user can now delete and edit comments in frontend|

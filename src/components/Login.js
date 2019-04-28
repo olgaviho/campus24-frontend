@@ -23,11 +23,13 @@ const LoginForm = (props) => {
       username: username,
       password: password
     }
-
-    await props.login(user)
-    // entäs jos kirjautuminen epäonnistuu...
-    props.setNotification('Welcome!')
-
+    try {
+      await props.login(user)
+      props.setNotification('Welcome!')
+    } catch (e) {
+      console.log(e)
+      props.setNotification('Wrong username or password!')
+    }
   }
 
 
