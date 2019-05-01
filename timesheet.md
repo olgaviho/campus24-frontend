@@ -18,3 +18,6 @@
 | 24.4.2019 | 3,5 | 45,5 | cleaned code |
 | 27.4.2019 | 1 | 46,5 | fixed bugs |
 | 28.4.2019 | 2,5 | 49,0 | user can now delete and edit comments in frontend|
+| 28.4.2019 | 2,5 | 49,0 | user can now delete and edit comments in frontend|
+| 30.4.2019 | 1 | 50 | user can now delete his account|
+| 1.5.2019 | 4 | 54 | threads and comments with deleted account are now working|

@@ -11,6 +11,10 @@ const removeToken = () => {
   token = null
 }
 
+const getToken = () => {
+  return token
+}
+
 
 const getAll = () => {
   const request = axios.get(baseUrl)
@@ -48,12 +52,15 @@ const update = async (updatedObject) => {
 
 const removeComment = async (id) => {
 
+
   if (token!==null) {
     const config = {
       headers: { Authorization: token },
     }
 
+
     const response = await axios.delete(`${baseUrl}/${id}`, config)
+ 
     return response.data
   }
   return null
@@ -66,5 +73,6 @@ export default {
   setToken,
   removeToken,
   update,
-  removeComment
+  removeComment,
+  getToken
 }

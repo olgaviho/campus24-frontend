@@ -1,6 +1,7 @@
 import loginService from './../services/login'
 import commentService from './../services/comments'
 import threadService from './../services/threads'
+import usersService from './../services/users'
 
 const loginReducer = (state = null, action) => {
   switch (action.type) {
@@ -17,6 +18,8 @@ export const setUser = (data) => {
   return async dispatch => {
     threadService.setToken(data.token)
     commentService.setToken(data.token)
+    usersService.setToken(data.token)
+
     dispatch({
       type: 'LOGIN',
       data: data
@@ -29,14 +32,24 @@ export const setUser = (data) => {
 export const login = (data) => {
   return async dispatch => {
 
-
     const user = await loginService.login(data)
     window.localStorage.setItem(
       'Campus24User', JSON.stringify(user)
     )
+    console.log('user', user)
 
-    threadService.setToken(data.token)
-    commentService.setToken(data.token)
+    threadService.setToken(user.token)
+    commentService.setToken(user.token)
+    usersService.setToken(user.token)
+
+    const token1 = threadService.getToken()
+    const token2 = usersService.getToken()
+    const token3 = commentService.getToken()
+
+    console.log('thread token', token1)
+    console.log('userstoken', token2)
+    console.log('commenttoken', token3)
+   
     dispatch({
       type: 'LOGIN',
       data: user
@@ -50,6 +63,7 @@ export const logout = () => {
     window.localStorage.clear()
     threadService.removeToken()
     commentService.removeToken()
+    usersService.removeToken()
 
     dispatch({
       type: 'LOGOUT',

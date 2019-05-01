@@ -11,6 +11,10 @@ const removeToken = () => {
   token = null
 }
 
+const getToken = () => {
+  return token
+}
+
 const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then(response => response.data)
@@ -66,5 +70,6 @@ export default {
   update,
   removeThread,
   setToken,
-  removeToken
+  removeToken,
+  getToken
 }

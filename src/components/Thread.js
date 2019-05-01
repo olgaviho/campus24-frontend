@@ -10,7 +10,7 @@ const Thread = (props) => {
 
   const [changeDone, setChangeDone] = useState(false)
   const [editedMessage, setEditedMessage] = useState('')
-  
+
   const handleEditedChange = (event) => {
     setEditedMessage(event.target.value)
   }
@@ -56,8 +56,6 @@ const Thread = (props) => {
     }
   }
 
-
-
   if (props.user === null) {
     return (
       <div>
@@ -87,30 +85,31 @@ const Thread = (props) => {
     </div>
   )
 
-
-
   let showButtons = false
 
-
   // älä muokkaa, menee kuitenkin pieleen !!
-  if (props.thread.user.username !== undefined) {
+
+  if (props.thread.user !== null && props.thread.user.username !== undefined) {
     if (props.thread.user.username === props.user.username) {
       showButtons = true
     }
   } else {
     const createdUser = props.users.find(u => u.id === props.thread.user)
-    if (createdUser.username === props.user.username) {
+    if (createdUser !== undefined && createdUser.username === props.user.username)
       showButtons = true
-    }
   }
 
+  if (props.thread.user === null) {
+    props.thread.user = {
+      username: 'deleted account'
+    }
+  }
 
   return (
     <div>
       <h3>{props.thread.title}</h3>
       <h4>Message: {props.thread.message}</h4>
       Author: {props.thread.user.username}
-
       {showButtons && buttonFunction()}
 
       <h4>Comments:</h4>

@@ -6,6 +6,7 @@ import Notification from './components/Notification'
 import AllThreads from './components/AllThreads'
 import Logout from './components/Logout'
 import Thread from './components/Thread'
+import DeleteAccount from './components/DeleteAccount'
 
 import './index.css'
 import { connect } from 'react-redux'
@@ -23,7 +24,7 @@ const App = (props) => {
     props.initializeUsers()
 
     const loggedUserJSON = window.localStorage.getItem('Campus24User')
-    
+
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       props.setUser(user)
@@ -60,12 +61,14 @@ const App = (props) => {
               <Link style={padding} to="/create">Create new user</Link>}
             {props.user !== null && <Link style={padding} to="/logout">Logout</Link>}
             {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
+            {props.user !== null && <Link style={padding} to="/deleteAccount">Delete account</Link>}
             {props.notification !== null && <Notification />}
           </div>
           <Route exact path="/" render={() => <AllThreads  />} />
           <Route exact path="/login" render={() => <LoginForm  />} />
           <Route exact path="/create" render={() => <NewUserFrom />} />
           <Route exact path="/logout" render={() => <Logout />} />
+          <Route exact path="/deleteAccount" render={() => <DeleteAccount />} />
           <Route exact path="/addNewThread" render={() => <NewThreadForm findUserIdByUsername={findUserIdByUsername} />} />
           <Route exact path="/threads/:id" render={({ match }) =>
             <Thread thread={findThreadIdById(match.params.id)} findUserIdByUsername={findUserIdByUsername} />}
