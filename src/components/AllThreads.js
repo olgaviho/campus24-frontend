@@ -9,7 +9,7 @@ const allThreads = (props) => {
     <div>
       {props.threads.map(t =>
         <OneThread key={t.id}>
-          <Link key={t.id} to={`/threads/${t.id}`}> {t.title} </Link>
+          <Link key={t.id} to={`/thread/${t.id}`}> {t.title} </Link>
           &nbsp;&nbsp; {t.comments.length} comments
         </OneThread>
       )}

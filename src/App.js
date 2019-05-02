@@ -77,7 +77,7 @@ const App = (props) => {
             <Route exact path="/logout" render={() => <Logout />} />
             <Route exact path="/deleteAccount" render={() => <DeleteAccount />} />
             <Route exact path="/addNewThread" render={() => <NewThreadForm findUserIdByUsername={findUserIdByUsername} />} />
-            <Route exact path="/threads/:id" render={({ match }) =>
+            <Route exact path="/thread/:id" render={({ match }) =>
               <Thread thread={findThreadIdById(match.params.id)} findUserIdByUsername={findUserIdByUsername} />}
             />
           </div>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { setNotification } from './../reducers/notificationReducer'
 import { addComment } from './../reducers/commentsReducer'
-import { Input, Button, TextArea } from './Style'
+import { Button, TextArea } from './Style'
 
 const newCommentForm = (props) => {
 

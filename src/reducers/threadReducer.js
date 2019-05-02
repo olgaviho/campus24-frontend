@@ -2,23 +2,23 @@ import threadService from './../services/threads'
 
 const threadReducer = (state = [], action) => {
   switch (action.type) {
-    case 'NEW_THREAD':
-      return [...state, action.data]
-    case 'INITIALIZE_THREADS':
-      return action.data
-    case 'EDIT_THREAD':
-      // eslint-disable-next-line no-case-declarations
-      const index = state.findIndex(t => t.id === action.data.id)
-      // eslint-disable-next-line no-case-declarations
-      const newState = [...state]
-      newState[index] = action.data
-      return newState
-    case 'DELETE_THREAD':
-      // eslint-disable-next-line no-case-declarations
-      const newstate = state.filter(s => s.id !== action.data)
-      return newstate
-    default:
-      return state
+  case 'NEW_THREAD':
+    return [...state, action.data]
+  case 'INITIALIZE_THREADS':
+    return action.data
+  case 'EDIT_THREAD':
+    // eslint-disable-next-line no-case-declarations
+    const index = state.findIndex(t => t.id === action.data.id)
+    // eslint-disable-next-line no-case-declarations
+    const newState = [...state]
+    newState[index] = action.data
+    return newState
+  case 'DELETE_THREAD':
+    // eslint-disable-next-line no-case-declarations
+    const newstate = state.filter(s => s.id !== action.data)
+    return newstate
+  default:
+    return state
   }
 }
 
@@ -34,10 +34,6 @@ export const initializeThreads = () => {
 
 export const addThread = (data) => {
 
-  const token1 = threadService.getToken()
-
-  console.log('thread token', token1)
-
   return async dispatch => {
     const newThread = await threadService.create(data)
     dispatch({
@@ -48,9 +44,7 @@ export const addThread = (data) => {
 }
 
 export const editThread = (data) => {
-  const token1 = threadService.getToken()
 
-  console.log('thread token', token1)
   return async dispatch => {
     const editedThread = await threadService.update(data)
     dispatch({
