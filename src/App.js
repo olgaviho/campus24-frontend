@@ -7,6 +7,7 @@ import AllThreads from './components/AllThreads'
 import Logout from './components/Logout'
 import Thread from './components/Thread'
 import DeleteAccount from './components/DeleteAccount'
+import { Page, Navigation, Title } from './components/Style'
 
 import './index.css'
 import { connect } from 'react-redux'
@@ -51,30 +52,37 @@ const App = (props) => {
 
   return (
     <div>
-      <Router>
-        <div>
+      <Page>
+        <Router>
           <div>
-            <Link style={padding} to="/">Threads</Link>
-            {props.user === null &&
-              <Link style={padding} to="/login">Login</Link>}
-            {props.user === null &&
-              <Link style={padding} to="/create">Create new user</Link>}
-            {props.user !== null && <Link style={padding} to="/logout">Logout</Link>}
-            {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
-            {props.user !== null && <Link style={padding} to="/deleteAccount">Delete account</Link>}
-            {props.notification !== null && <Notification />}
+            <div>
+              <Title>
+                <h1>Campus24</h1>
+                <Navigation>
+                  <Link style={padding} to="/">Threads</Link>
+                  {props.user === null &&
+                    <Link style={padding} to="/login">Login</Link>}
+                  {props.user === null &&
+                    <Link style={padding} to="/create">Create new user</Link>}
+                  {props.user !== null && <Link style={padding} to="/logout">Logout</Link>}
+                  {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
+                  {props.user !== null && <Link style={padding} to="/deleteAccount">Delete account</Link>}
+                </Navigation>
+              </Title>
+              {props.notification !== null && <Notification />}
+            </div>
+            <Route exact path="/" render={() => <AllThreads />} />
+            <Route exact path="/login" render={() => <LoginForm />} />
+            <Route exact path="/create" render={() => <NewUserFrom />} />
+            <Route exact path="/logout" render={() => <Logout />} />
+            <Route exact path="/deleteAccount" render={() => <DeleteAccount />} />
+            <Route exact path="/addNewThread" render={() => <NewThreadForm findUserIdByUsername={findUserIdByUsername} />} />
+            <Route exact path="/threads/:id" render={({ match }) =>
+              <Thread thread={findThreadIdById(match.params.id)} findUserIdByUsername={findUserIdByUsername} />}
+            />
           </div>
-          <Route exact path="/" render={() => <AllThreads  />} />
-          <Route exact path="/login" render={() => <LoginForm  />} />
-          <Route exact path="/create" render={() => <NewUserFrom />} />
-          <Route exact path="/logout" render={() => <Logout />} />
-          <Route exact path="/deleteAccount" render={() => <DeleteAccount />} />
-          <Route exact path="/addNewThread" render={() => <NewThreadForm findUserIdByUsername={findUserIdByUsername} />} />
-          <Route exact path="/threads/:id" render={({ match }) =>
-            <Thread thread={findThreadIdById(match.params.id)} findUserIdByUsername={findUserIdByUsername} />}
-          />
-        </div>
-      </Router>
+        </Router>
+      </Page>
     </div>
   )
 }

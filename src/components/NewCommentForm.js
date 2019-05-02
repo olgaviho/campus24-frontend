@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { setNotification } from './../reducers/notificationReducer'
 import { addComment } from './../reducers/commentsReducer'
+import { Input, Button, TextArea } from './Style'
 
 const newCommentForm = (props) => {
 
@@ -32,11 +33,10 @@ const newCommentForm = (props) => {
       <h4>Add new comment</h4>
       <form>
         <div>
-          message:
-          <input value={commentMessage}
+          <TextArea rows='3' cols="50" value={commentMessage}
             onChange={handleMessageChange} />
         </div>
-        <button onClick={() => addNewComment()}>add</button>
+        <Button onClick={() => addNewComment()}>add</Button>
       </form>
     </div>
   )

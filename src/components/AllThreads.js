@@ -1,17 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { OneThread } from './Style'
 
 const allThreads = (props) => {
 
   return (
     <div>
-      <h2>Threads</h2>
       {props.threads.map(t =>
-        <li key={t.id}>
+        <OneThread key={t.id}>
           <Link key={t.id} to={`/threads/${t.id}`}> {t.title} </Link>
-        </li>
+          &nbsp;&nbsp; {t.comments.length} comments
+        </OneThread>
       )}
+
     </div>
   )
 }

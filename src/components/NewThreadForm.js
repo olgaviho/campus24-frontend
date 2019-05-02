@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { setNotification } from './../reducers/notificationReducer'
 import { addThread } from './../reducers/threadReducer'
+import { Input, TextArea, Button } from './Style'
 
 const newThreadForm = (props) => {
 
@@ -46,15 +47,17 @@ const newThreadForm = (props) => {
       <form onSubmit={addNewThread}>
         <div>
           title:
-          <input value={newTitle}
+          <Input value={newTitle}
             onChange={handleTitleChange} />
         </div>
         <div>
           message:
-          <input value={newMessage}
-            onChange={handleMessageChange} />
+          <div>
+            <TextArea cols='50' rows='3' value={newMessage}
+              onChange={handleMessageChange} />
+          </div>
         </div>
-        <button type='submit'>add</button>
+        <Button type='submit'>add</Button>
       </form>
     </div>
   )

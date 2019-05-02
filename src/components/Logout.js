@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { setNotification } from './../reducers/notificationReducer'
 import { logout } from './../reducers/loginReducer'
+import { Button } from './Style'
 
 
 
@@ -31,7 +32,7 @@ const Logout = (props) => {
   return (
     <div>
       <h3>Logout</h3>
-      <button onClick = {() => handleLogout()}>logout</button>
+      <Button onClick = {() => handleLogout()}>logout</Button>
     </div>
   )
 

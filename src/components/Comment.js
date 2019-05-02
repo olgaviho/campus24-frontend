@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { deleteComment, editComment } from './../reducers/commentsReducer'
 import { setNotification } from './../reducers/notificationReducer'
+import { SmallButton, Input, CommentInformation, CommentText } from './Style'
 
 const Comment = (props) => {
   const [editedMessage, setEditedMessage] = useState('')
@@ -29,8 +30,9 @@ const Comment = (props) => {
 
     return (
       <div>
-        <p>Message: {comment.message}</p>
-        <p>Author:  {comment.user.username} Date: {comment.date}</p>
+        <CommentInformation> Author:  {comment.user.username} Date: {comment.date} 
+          <CommentText> {comment.message} </CommentText>
+        </CommentInformation>
       </div>
     )
   }
@@ -70,12 +72,13 @@ const Comment = (props) => {
       <form>
         <div>
           new message
-          <input value={editedMessage}
+          <Input value={editedMessage}
             onChange={handleEditedChange} />
+
+          <SmallButton onClick={() => editComment(comment.id, editedMessage)}> edit </SmallButton>
         </div>
-        <button onClick={() => editComment(comment.id, editedMessage)}> edit </button>
       </form>
-      <button onClick={() => deleteComment(comment.id)}> delete </button>
+      <SmallButton onClick={() => deleteComment(comment.id)}> delete comment </SmallButton>
     </div>
   )
 
@@ -86,7 +89,7 @@ const Comment = (props) => {
       showButtons = true
     }
   } else {
-  // käydään läpi ylläolevien tapauksien negaatiot
+    // käydään läpi ylläolevien tapauksien negaatiot
     const createdUser = props.users.find(u => u.id === comment.user)
     if (createdUser !== null && createdUser !== undefined) {
       if (createdUser.username === props.user.username) {
@@ -104,10 +107,12 @@ const Comment = (props) => {
 
   return (
     <div>
-      <p>Message: {comment.message}</p>
-      <p>Author:  {comment.user.username} Date: {comment.date}</p>
-
-      {showButtons && editFunction()}
+      <CommentInformation> Author:  {comment.user.username} Date: {comment.date}
+        <CommentText> {comment.message}
+          
+        </CommentText>
+        {showButtons && editFunction()}
+      </CommentInformation>
 
     </div>
   )

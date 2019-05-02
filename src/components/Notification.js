@@ -1,13 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { HappyNotification } from './Style'
 
 const Notification = (props) => {
   if (props.notification === null || props.notification === '') {
     return null
   }
   return (
-    <div className='notification'>
-      {props.notification}
+    <div>
+      <HappyNotification>
+        {props.notification}
+      </HappyNotification>
     </div>
   )
 }

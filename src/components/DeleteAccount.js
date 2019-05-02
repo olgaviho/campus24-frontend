@@ -6,6 +6,7 @@ import { deleteUser } from './../reducers/usersReducer'
 import { deleteThread } from './../reducers/threadReducer'
 import { deleteComment } from './../reducers/commentsReducer'
 import { Redirect } from 'react-router-dom'
+import { Button } from './Style'
 
 const DeleteAccount = (props) => {
 
@@ -36,7 +37,7 @@ const DeleteAccount = (props) => {
     <div>
       Are you sure that you want to delete your account?
       <div>
-        <button onClick={() => deleteAccountFunction()}>Confirm</button>
+        <Button onClick={() => deleteAccountFunction()}>Confirm</Button>
       </div>
     </div>
   )

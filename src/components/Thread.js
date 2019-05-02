@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { deleteThread, editThread } from './../reducers/threadReducer'
 import { setNotification } from './../reducers/notificationReducer'
 import { Redirect } from 'react-router-dom'
+import { SmallButton, Input, CommentInformation, CommentText } from './Style'
 
 const Thread = (props) => {
 
@@ -57,10 +58,19 @@ const Thread = (props) => {
   }
 
   if (props.user === null) {
+
+    if (props.thread.user === null) {
+      props.thread.user = {
+        username: 'deleted account'
+      }
+    }
     return (
       <div>
-        <h3>{props.thread.title}</h3>
-        <h4>Comments:</h4>
+        <CommentInformation>
+          <h3>{props.thread.title}</h3>
+          Author: {props.thread.user.username}
+          <CommentText>{props.thread.message}</CommentText>
+        </CommentInformation>
         {props.thread.comments.map(id =>
           <Comment
             key={id}
@@ -76,12 +86,12 @@ const Thread = (props) => {
       <form>
         <div>
           new message
-          <input value={editedMessage}
+          <Input value={editedMessage}
             onChange={handleEditedChange} />
+          <SmallButton onClick={() => editThread(props.thread.id, editedMessage)}> edit </SmallButton>
         </div>
-        <button onClick={() => editThread(props.thread.id, editedMessage)}> edit </button>
       </form>
-      <button onClick={() => deleteThread(props.thread.id)}> delete </button>
+      <SmallButton onClick={() => deleteThread(props.thread.id)}> delete </SmallButton>
     </div>
   )
 
@@ -107,12 +117,12 @@ const Thread = (props) => {
 
   return (
     <div>
-      <h3>{props.thread.title}</h3>
-      <h4>Message: {props.thread.message}</h4>
-      Author: {props.thread.user.username}
-      {showButtons && buttonFunction()}
-
-      <h4>Comments:</h4>
+      <CommentInformation>
+        <h3>{props.thread.title}</h3>
+        Author: {props.thread.user.username}
+        <CommentText>{props.thread.message}</CommentText>
+        {showButtons && buttonFunction()}
+      </CommentInformation>
       {props.thread.comments.map(id =>
         <Comment
           key={id}

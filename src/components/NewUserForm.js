@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { addUser } from './../reducers/usersReducer'
 import { setNotification } from './../reducers/notificationReducer'
+import { Input, Button } from './Style'
 
 const NewUserForm = (props) => {
 
@@ -59,20 +60,20 @@ const NewUserForm = (props) => {
       <form onSubmit={createNewUser}>
         <div>
           username
-          <input type='text' value={newUsername} name='newUsername'
+          <Input type='text' value={newUsername} name='newUsername'
             onChange={handleNewUsernameChange} />
         </div>
         <div>
           name
-          <input type='text' value={newName} name='newName'
+          <Input type='text' value={newName} name='newName'
             onChange={handleNewNameChange} />
         </div>
         <div>
           password
-          <input type='password' value={newPassword} name='newPassword'
+          <Input type='password' value={newPassword} name='newPassword'
             onChange={handleNewPasswordChange} />
         </div>
-        <button type='submit'>Add a new user</button>
+        <Button type='submit'>Add a new user</Button>
       </form>
     </div>
   )
