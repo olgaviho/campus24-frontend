@@ -57,78 +57,64 @@ const Thread = (props) => {
     }
   }
 
+
+
+  const findComments = () => {
+    const threadComments = props.comments.filter(c => c.thread === props.thread.id)
+    return threadComments
+  }
+
   if (props.user === null) {
 
-    if (props.thread.user === null) {
-      props.thread.user = {
-        username: 'deleted account'
-      }
-    }
     return (
       <div>
         <CommentInformation>
           <h3>{props.thread.title}</h3>
-          Author: {props.thread.user.username}
+          Author: {props.findUserNameById(props.thread.user)}
           <CommentText>{props.thread.message}</CommentText>
         </CommentInformation>
-        {props.thread.comments.map(id =>
-          <Comment
-            key={id}
-            id={id}
-            allComments={props.comments} />
-        )}
+        Comments
+        {findComments().map(c => <Comment key={c.id} comment={c} findUserNameById={props.findUserNameById}/>)}
       </div>
     )
   }
 
   const buttonFunction = () => (
     <div>
-      <form>
-        <div>
-          new message
-          <Input value={editedMessage}
-            onChange={handleEditedChange} />
-          <SmallButton onClick={() => editThread(props.thread.id, editedMessage)}> edit </SmallButton>
-        </div>
-      </form>
+      <div>
+        new message
+        <Input value={editedMessage}
+          onChange={handleEditedChange} />
+        <SmallButton onClick={() => editThread(props.thread.id, editedMessage)}> edit </SmallButton>
+      </div>
+
       <SmallButton onClick={() => deleteThread(props.thread.id)}> delete </SmallButton>
     </div>
   )
 
   let showButtons = false
 
-  // älä muokkaa, menee kuitenkin pieleen !!
+  const findUserIdByUsername = (username) => {
+    const user = props.users.find(u => u.username === username)
+    return user
 
-  if (props.thread.user !== null && props.thread.user.username !== undefined) {
-    if (props.thread.user.username === props.user.username) {
-      showButtons = true
-    }
-  } else {
-    const createdUser = props.users.find(u => u.id === props.thread.user)
-    if (createdUser !== undefined && createdUser.username === props.user.username)
-      showButtons = true
   }
 
-  if (props.thread.user === null) {
-    props.thread.user = {
-      username: 'deleted account'
-    }
+  if (findUserIdByUsername(props.user.username) !== undefined && props.thread.user === findUserIdByUsername(props.user.username).id) {
+    showButtons = true
   }
+
 
   return (
     <div>
       <CommentInformation>
         <h3>{props.thread.title}</h3>
-        Author: {props.thread.user.username}
+        Author: {props.findUserNameById(props.thread.user)}
         <CommentText>{props.thread.message}</CommentText>
         {showButtons && buttonFunction()}
       </CommentInformation>
-      {props.thread.comments.map(id =>
-        <Comment
-          key={id}
-          id={id}
-          allComments={props.comments} />)}
-
+      Comments
+      {findComments().map(c => <Comment comment={c} key={c.id} findUserNameById={props.findUserNameById}/>)}
       <NewCommentForm
         findUserIdByUsername={props.findUserIdByUsername}
         threadId={props.thread.id} />

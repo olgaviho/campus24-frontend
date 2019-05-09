@@ -8,7 +8,6 @@ const usersReducer = (state = [], action) => {
     return action.data
   case 'DELETE_USER':
     // eslint-disable-next-line no-case-declarations
-    console.log('action.data', action.data)
     const newstate = state.filter(u => u.id !== action.data)
     return newstate
   default:
@@ -38,10 +37,6 @@ export const addUser = (data) => {
 
 export const deleteUser = (id) => {
 
-  const token1 = usersService.getToken()
-
-  console.log('users token', token1)
-  console.log('id', id)
   return async dispatch => {
     await usersService.removeUser(id)
     dispatch({

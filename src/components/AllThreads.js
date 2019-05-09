@@ -5,12 +5,22 @@ import { OneThread } from './Style'
 
 const allThreads = (props) => {
 
+  const countComments = (thread) => {
+
+    const commentsOfThread = props.comments.filter(c => c.thread === thread.id)
+    return commentsOfThread.length
+  }
+
+
   return (
     <div>
       {props.threads.map(t =>
         <OneThread key={t.id}>
           <Link key={t.id} to={`/thread/${t.id}`}> {t.title} </Link>
-          &nbsp;&nbsp; {t.comments.length} comments
+          &nbsp;&nbsp; comments {countComments(t)}
+
+          &nbsp;&nbsp; started by: {props.findUserNameById(t.user)}
+
         </OneThread>
       )}
 

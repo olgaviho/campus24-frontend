@@ -36,20 +36,11 @@ export const login = (data) => {
     window.localStorage.setItem(
       'Campus24User', JSON.stringify(user)
     )
-    console.log('user', user)
 
     threadService.setToken(user.token)
     commentService.setToken(user.token)
     usersService.setToken(user.token)
-
-    const token1 = threadService.getToken()
-    const token2 = usersService.getToken()
-    const token3 = commentService.getToken()
-
-    console.log('thread token', token1)
-    console.log('userstoken', token2)
-    console.log('commenttoken', token3)
-   
+  
     dispatch({
       type: 'LOGIN',
       data: user

@@ -20,5 +20,6 @@
 | 28.4.2019 | 2,5 | 49,0 | user can now delete and edit comments in frontend|
 | 28.4.2019 | 2,5 | 49,0 | user can now delete and edit comments in frontend|
 | 30.4.2019 | 1 | 50 | user can now delete his account|
-| 1.5.2019 | 4 | 54 | threads and comments with deleted account are now working|
-| 2.5.2019 | 4 | 58 | stated use styled components and tried to fix router-heroku problem |
+| 1.5.2019 | 4 | 54 | threads and comments with deleted account are now working |
+| 2.5.2019 | 6 | 60 | stated use styled components and tried to fix router-heroku problem |
+| 9.5.2019 | 4 | 64 | did some tests with cypress |

@@ -49,13 +49,13 @@ const LoginForm = (props) => {
 
         <div>
           username
-          <Input type="text" value={username} name='Username'
+          <Input type="text" value={username} name='Username' id='Username'
             onChange={handleUsernameChange} />
         </div>
 
         <div>
           password
-          <Input type="password" value={password} name='Password'
+          <Input type="password" value={password} name='Password' id='Password'
             onChange={handlePasswordChange} />
         </div>
 

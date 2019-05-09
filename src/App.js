@@ -37,7 +37,15 @@ const App = (props) => {
   const findUserIdByUsername = (username) => {
     const user = props.users.find(u => u.username === username)
     return user
+  }
 
+  const findUserNameById = (id) => {
+
+    const user = props.users.find(u => u.id === id)
+    if (user === null || user === undefined) {
+      return 'unknown user'
+    }
+    return user.username
   }
 
   const findThreadIdById = (id) => {
@@ -71,14 +79,15 @@ const App = (props) => {
               </Title>
               {props.notification !== null && <Notification />}
             </div>
-            <Route exact path="/" render={() => <AllThreads />} />
+            <Route exact path="/" render={() => <AllThreads findUserNameById={findUserNameById} />} />
             <Route exact path="/login" render={() => <LoginForm />} />
             <Route exact path="/create" render={() => <NewUserFrom />} />
             <Route exact path="/logout" render={() => <Logout />} />
             <Route exact path="/deleteAccount" render={() => <DeleteAccount />} />
             <Route exact path="/addNewThread" render={() => <NewThreadForm findUserIdByUsername={findUserIdByUsername} />} />
             <Route exact path="/thread/:id" render={({ match }) =>
-              <Thread thread={findThreadIdById(match.params.id)} findUserIdByUsername={findUserIdByUsername} />}
+              <Thread thread={findThreadIdById(match.params.id)}
+                findUserIdByUsername={findUserIdByUsername} findUserNameById={findUserNameById} />}
             />
           </div>
         </Router>

@@ -60,17 +60,17 @@ const NewUserForm = (props) => {
       <form onSubmit={createNewUser}>
         <div>
           username
-          <Input type='text' value={newUsername} name='newUsername'
+          <Input type='text' value={newUsername} name='newUsername' id='newUsername'
             onChange={handleNewUsernameChange} />
         </div>
         <div>
           name
-          <Input type='text' value={newName} name='newName'
+          <Input type='text' value={newName} name='newName' id='newName'
             onChange={handleNewNameChange} />
         </div>
         <div>
           password
-          <Input type='password' value={newPassword} name='newPassword'
+          <Input type='password' value={newPassword} name='newPassword' id='newPassword'
             onChange={handleNewPasswordChange} />
         </div>
         <Button type='submit'>Add a new user</Button>

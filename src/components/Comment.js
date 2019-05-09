@@ -9,29 +9,18 @@ const Comment = (props) => {
 
   let showButtons = false
 
-  const findCommentById = (id) => {
-    const comment = props.allComments.find(c => c.id === id)
-    return comment
-  }
 
-  const comment = findCommentById(props.id)
-  if (comment === undefined || comment === null) {
+  if (props.comment === undefined || props.comment === null) {
     return ('')
   }
 
   // näkymä käyttäjälle, joka ei ole kirjautunut
   if (props.user === null) {
-    // asetetaan käyttäjä, mikäli luoja on poistanut tilinsä
-    if (comment.user === null) {
-      comment.user = {
-        username: 'deleted account'
-      }
-    }
 
     return (
       <div>
-        <CommentInformation> Author:  {comment.user.username} Date: {comment.date} 
-          <CommentText> {comment.message} </CommentText>
+        <CommentInformation> Author: {props.findUserNameById(props.comment.user)} Date: {props.comment.date}
+          <CommentText> {props.comment.message} </CommentText>
         </CommentInformation>
       </div>
     )
@@ -60,6 +49,7 @@ const Comment = (props) => {
     try {
       await props.editComment(changedComment)
       props.setNotification('Comment edited')
+      setEditedMessage('')
 
     } catch (e) {
       console.log(e)
@@ -69,47 +59,33 @@ const Comment = (props) => {
 
   const editFunction = () => (
     <div>
-      <form>
-        <div>
-          new message
-          <Input value={editedMessage}
-            onChange={handleEditedChange} />
-
-          <SmallButton onClick={() => editComment(comment.id, editedMessage)}> edit </SmallButton>
-        </div>
-      </form>
-      <SmallButton onClick={() => deleteComment(comment.id)}> delete comment </SmallButton>
+      <div>
+        new message
+        <Input value={editedMessage}
+          onChange={handleEditedChange} />
+        <SmallButton onClick={() => editComment(props.comment.id, editedMessage)}> edit </SmallButton>
+      </div>
+      <SmallButton onClick={() => deleteComment(props.comment.id)}> delete comment </SmallButton>
     </div>
   )
 
-  // estetään tapaukset että kommentti on vasta hetki sitten luotu
-  // tai sen luoja on poistanut tilin
-  if (comment.user !== null && comment.user.username !== undefined && comment.user.username !== null) {
-    if (comment.user.username === props.user.username) {
-      showButtons = true
-    }
-  } else {
-    // käydään läpi ylläolevien tapauksien negaatiot
-    const createdUser = props.users.find(u => u.id === comment.user)
-    if (createdUser !== null && createdUser !== undefined) {
-      if (createdUser.username === props.user.username) {
-        showButtons = true
-      }
-    }
+  const findUserIdByUsername = (username) => {
+    const user = props.users.find(u => u.username === username)
+    return user
+
   }
 
-  // asetetaan olio siinä tapauksessa, että kommentin käyttäjä on poistanut tilinsä
-  if (comment.user === null) {
-    comment.user = {
-      username: 'deleted account'
-    }
+
+  if (findUserIdByUsername(props.user.username) !== undefined && props.comment.user === findUserIdByUsername(props.user.username).id) {
+    showButtons = true
   }
+
 
   return (
     <div>
-      <CommentInformation> Author:  {comment.user.username} Date: {comment.date}
-        <CommentText> {comment.message}
-          
+      <CommentInformation> Author:  {props.findUserNameById(props.comment.user)} Date: {props.comment.date}
+        <CommentText> {props.comment.message}
+
         </CommentText>
         {showButtons && editFunction()}
       </CommentInformation>

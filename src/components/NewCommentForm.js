@@ -22,6 +22,7 @@ const newCommentForm = (props) => {
     try {
       await props.addComment(commentObject)
       props.setNotification('New comment added')
+      setCommentMessage('')
     } catch (e) {
       console.log(e)
       props.setNotification('Failed to create new comment')
@@ -31,13 +32,11 @@ const newCommentForm = (props) => {
   return (
     <div>
       <h4>Add new comment</h4>
-      <form>
-        <div>
-          <TextArea rows='3' cols="50" value={commentMessage}
-            onChange={handleMessageChange} />
-        </div>
-        <Button onClick={() => addNewComment()}>add</Button>
-      </form>
+      <div>
+        <TextArea rows='3' cols="50" value={commentMessage} id='newComment'
+          onChange={handleMessageChange} />
+      </div>
+      <Button onClick={() => addNewComment()}>add</Button>
     </div>
   )
 }

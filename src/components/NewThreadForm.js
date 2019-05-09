@@ -47,13 +47,13 @@ const newThreadForm = (props) => {
       <form onSubmit={addNewThread}>
         <div>
           title:
-          <Input value={newTitle}
+          <Input value={newTitle} id='NewTitle'
             onChange={handleTitleChange} />
         </div>
         <div>
           message:
           <div>
-            <TextArea cols='50' rows='3' value={newMessage}
+            <TextArea cols='50' rows='3' value={newMessage} id='NewMessage'
               onChange={handleMessageChange} />
           </div>
         </div>
