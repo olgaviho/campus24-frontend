@@ -22,4 +22,5 @@
 | 30.4.2019 | 1 | 50 | user can now delete his account|
 | 1.5.2019 | 4 | 54 | threads and comments with deleted account are now working |
 | 2.5.2019 | 6 | 60 | stated use styled components and tried to fix router-heroku problem |
-| 9.5.2019 | 4 | 64 | did some tests with cypress |
+| 9.5.2019 | 3 | 63 | did some tests with cypress |
+| 19.5.2019 | 4 | 67 | did more tests with cypress |

@@ -61,11 +61,11 @@ const Comment = (props) => {
     <div>
       <div>
         new message
-        <Input value={editedMessage}
+        <Input value={editedMessage} id='editComment'
           onChange={handleEditedChange} />
-        <SmallButton onClick={() => editComment(props.comment.id, editedMessage)}> edit </SmallButton>
+        <SmallButton onClick={() => editComment(props.comment.id, editedMessage)}> edit comment </SmallButton>
       </div>
-      <SmallButton onClick={() => deleteComment(props.comment.id)}> delete comment </SmallButton>
+      <SmallButton id='deleteComment' onClick={() => deleteComment(props.comment.id)}> delete comment </SmallButton>
     </div>
   )
 

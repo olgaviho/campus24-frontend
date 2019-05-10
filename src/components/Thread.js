@@ -50,10 +50,12 @@ const Thread = (props) => {
     try {
       await props.editThread(changedThread)
       props.setNotification('Thread edited')
+      setEditedMessage('')
 
     } catch (e) {
       console.log(e)
       props.setNotification('Failed to edit thread')
+      setEditedMessage('')
     }
   }
 
@@ -67,7 +69,7 @@ const Thread = (props) => {
   if (props.user === null) {
 
     return (
-      <div>
+      <div className='thread'>
         <CommentInformation>
           <h3>{props.thread.title}</h3>
           Author: {props.findUserNameById(props.thread.user)}
@@ -83,12 +85,12 @@ const Thread = (props) => {
     <div>
       <div>
         new message
-        <Input value={editedMessage}
+        <Input value={editedMessage} id='editMessage'
           onChange={handleEditedChange} />
         <SmallButton onClick={() => editThread(props.thread.id, editedMessage)}> edit </SmallButton>
       </div>
 
-      <SmallButton onClick={() => deleteThread(props.thread.id)}> delete </SmallButton>
+      <SmallButton id='deleteThread' onClick={() => deleteThread(props.thread.id)}> delete </SmallButton>
     </div>
   )
 
@@ -106,7 +108,7 @@ const Thread = (props) => {
 
 
   return (
-    <div>
+    <div className='thread'>
       <CommentInformation>
         <h3>{props.thread.title}</h3>
         Author: {props.findUserNameById(props.thread.user)}
