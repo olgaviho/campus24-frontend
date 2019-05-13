@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { OneThread } from './Style'
+import Pagination from 'react-bootstrap/Pagination'
 
 const allThreads = (props) => {
+  const [clickState, setClickState] = useState(1)
 
   const countComments = (thread) => {
 
@@ -12,9 +14,33 @@ const allThreads = (props) => {
   }
 
 
+  let active = clickState
+  let items = []
+  const numberOfItems = props.threads.length
+  const itemsPerPage = 5
+  const numberOfpages = Math.ceil(numberOfItems/itemsPerPage)
+
+  for (let number = 1; number <= numberOfpages; number++) {
+    items.push(
+      <Pagination.Item onClick={() => {
+        setClickState(number)
+      }}
+      key={number} active={number === active}>
+        {number}
+      </Pagination.Item>
+    )
+  }
+
+  const paginationBasic = (
+    <div>
+      <Pagination size="sm">{items}</Pagination>
+    </div>
+  )
+
+
   return (
     <div>
-      {props.threads.map(t =>
+      {props.threads.slice(active*itemsPerPage - itemsPerPage, active*itemsPerPage).map(t =>
         <OneThread key={t.id}>
           <Link key={t.id} to={`/thread/${t.id}`}> {t.title} </Link>
           &nbsp;&nbsp; comments {countComments(t)}
@@ -23,6 +49,8 @@ const allThreads = (props) => {
 
         </OneThread>
       )}
+
+      {paginationBasic}
 
     </div>
   )

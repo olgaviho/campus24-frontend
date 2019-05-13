@@ -18,9 +18,10 @@
 | 24.4.2019 | 3,5 | 45,5 | cleaned code |
 | 27.4.2019 | 1 | 46,5 | fixed bugs |
 | 28.4.2019 | 2,5 | 49,0 | user can now delete and edit comments in frontend|
-| 28.4.2019 | 2,5 | 49,0 | user can now delete and edit comments in frontend|
 | 30.4.2019 | 1 | 50 | user can now delete his account|
 | 1.5.2019 | 4 | 54 | threads and comments with deleted account are now working |
-| 2.5.2019 | 6 | 60 | stated use styled components and tried to fix router-heroku problem |
+| 2.5.2019 | 6 | 60 | started use styled components and tried to fix router-heroku problem |
 | 9.5.2019 | 3 | 63 | did some tests with cypress |
-| 19.5.2019 | 4 | 67 | did more tests with cypress |
+| 10.5.2019 | 4 | 67 | did more tests with cypress |
+| 12.5.2019 | 3 | 70 | fixed routes |
+| 13.5.2019 | 5 | 75 | added pagination |

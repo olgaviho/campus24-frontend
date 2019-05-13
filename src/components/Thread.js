@@ -6,11 +6,13 @@ import { deleteThread, editThread } from './../reducers/threadReducer'
 import { setNotification } from './../reducers/notificationReducer'
 import { Redirect } from 'react-router-dom'
 import { SmallButton, Input, CommentInformation, CommentText } from './Style'
+import Pagination from 'react-bootstrap/Pagination'
 
 const Thread = (props) => {
 
   const [changeDone, setChangeDone] = useState(false)
   const [editedMessage, setEditedMessage] = useState('')
+  const [clickState, setClickState] = useState(1)
 
   const handleEditedChange = (event) => {
     setEditedMessage(event.target.value)
@@ -66,7 +68,31 @@ const Thread = (props) => {
     return threadComments
   }
 
+  const threadComments = findComments()
+  let active = clickState
+  let items = []
+  const numberOfItems = threadComments.length
+  const itemsPerPage = 5
+  const numberOfPages = Math.ceil(numberOfItems / itemsPerPage)
+
+  for (let number = 1; number <= numberOfPages; number++) {
+    items.push(
+      <Pagination.Item onClick={() => {
+        setClickState(number)
+      }} key={number} active={number === active}>
+        {number}
+      </Pagination.Item>
+    )
+  }
+
+  const paginationBasic = (
+    <div>
+      <Pagination size='sm'> {items} </Pagination>
+    </div>
+  )
+
   if (props.user === null) {
+
 
     return (
       <div className='thread'>
@@ -76,7 +102,11 @@ const Thread = (props) => {
           <CommentText>{props.thread.message}</CommentText>
         </CommentInformation>
         Comments
-        {findComments().map(c => <Comment key={c.id} comment={c} findUserNameById={props.findUserNameById}/>)}
+
+        {threadComments.slice(active*itemsPerPage - itemsPerPage, active*itemsPerPage).map(c =>
+          <Comment key={c.id} comment={c} findUserNameById={props.findUserNameById} />)}
+
+        {paginationBasic}
       </div>
     )
   }
@@ -116,7 +146,10 @@ const Thread = (props) => {
         {showButtons && buttonFunction()}
       </CommentInformation>
       Comments
-      {findComments().map(c => <Comment comment={c} key={c.id} findUserNameById={props.findUserNameById}/>)}
+      {threadComments.slice(active*itemsPerPage-itemsPerPage, active*itemsPerPage).map(c =>
+        <Comment comment={c} key={c.id} findUserNameById={props.findUserNameById} />)}
+
+      {paginationBasic}
       <NewCommentForm
         findUserIdByUsername={props.findUserIdByUsername}
         threadId={props.thread.id} />
