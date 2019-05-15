@@ -3,18 +3,16 @@ import threadService from './../services/threads'
 const threadReducer = (state = [], action) => {
   switch (action.type) {
   case 'NEW_THREAD':
-    return [...state, action.data]
+    return [action.data,...state]
   case 'INITIALIZE_THREADS':
-    return action.data
+    const orderThreads = action.data.reverse()
+    return orderThreads
   case 'EDIT_THREAD':
-    // eslint-disable-next-line no-case-declarations
     const index = state.findIndex(t => t.id === action.data.id)
-    // eslint-disable-next-line no-case-declarations
     const newState = [...state]
     newState[index] = action.data
     return newState
   case 'DELETE_THREAD':
-    // eslint-disable-next-line no-case-declarations
     const newstate = state.filter(s => s.id !== action.data)
     return newstate
   default:

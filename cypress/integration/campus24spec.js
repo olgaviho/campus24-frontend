@@ -14,6 +14,7 @@ describe('Campus24 ', function () {
     cy.contains('Create new user')
   })
 
+
   it('user can create a new user', function () {
     cy.contains('Create new user')
       .click()
@@ -26,6 +27,11 @@ describe('Campus24 ', function () {
     cy.contains('Add')
       .click()
     cy.contains('New user added')
+  })
+
+  it('user that has not logged in can not create a new thread', function() {
+    cy.contains('Add a new thread')
+      .should('not.exist')
   })
 
   describe('When there is a user in the database', function () {
@@ -114,7 +120,7 @@ describe('Campus24 ', function () {
       })
 
 
-      it('user can add a new thread ', function () {
+      it('logged user can add a new thread ', function () {
         cy.contains('Add a new thread')
           .click()
         cy.get('#NewTitle')
@@ -136,9 +142,26 @@ describe('Campus24 ', function () {
             .type('on kivaa luoda uusi threadi')
           cy.contains('add')
             .click()
+          cy.wait(3000)
         })
 
-        it('user can add a new comment ', function () {
+        it('user that has not logged in, can not edit or delete thread ', function () {
+          cy.contains('Logout')
+            .click()
+          cy.contains('logout')
+            .click()
+          cy.contains('Threads')
+            .click()
+          cy.contains('uusi threadi')
+            .click()
+          cy.get('#editMessage')
+            .should('not.exist')
+          cy.contains('delete')
+            .should('not.exist')
+        })
+
+
+        it('logged user can add a new comment ', function () {
           cy.contains('Threads')
             .click()
           cy.contains('uusi threadi')
@@ -146,14 +169,14 @@ describe('Campus24 ', function () {
           cy.contains('Add new comment')
           cy.get('#newComment')
             .type('uusi kommentti')
-          cy.wait(3000)
           cy.contains('add')
             .click()
           cy.contains('New comment added')
           cy.contains('uusi kommentti')
+          cy.wait(3000)
         })
 
-        it('user can edit and delete thread ', function () {
+        it('logged user can edit and delete thread ', function () {
           cy.contains('Threads')
             .click()
           cy.contains('uusi threadi')
@@ -162,6 +185,7 @@ describe('Campus24 ', function () {
             .type('threadin teksti muuttuu')
           cy.contains('edit')
             .click()
+          cy.contains('Thread edited')
           cy.contains('threadin teksti muuttuu')
 
           cy.contains('Threads')
@@ -171,6 +195,10 @@ describe('Campus24 ', function () {
           cy.contains('delete')
             .click()
           cy.contains('Thread deleted')
+          cy.contains('Threads')
+            .click()
+          cy.contains('uusi threadi')
+            .should('not.exist')
         })
 
         describe('When there is a thread and comment in database', function () {
@@ -189,7 +217,7 @@ describe('Campus24 ', function () {
             cy.contains('uusi kommentti')
           })
 
-          it('user can edit and delete comment', function () {
+          it('logged user can edit and delete comment', function () {
             cy.contains('Threads')
               .click()
             cy.contains('uusi threadi')
@@ -197,8 +225,10 @@ describe('Campus24 ', function () {
             cy.get('#editComment')
               .type('kommentin teksti muuttuu')
             cy.contains('edit comment')
-              .click()
+              .click()  
+            cy.contains('Comment edited')
             cy.contains('kommentin teksti muuttuu')
+            cy.wait(3000)
 
             cy.contains('Threads')
               .click()
@@ -207,6 +237,23 @@ describe('Campus24 ', function () {
             cy.contains('delete comment')
               .click()
             cy.contains('Comment deleted')
+            cy.contains('uusi kommentti')
+              .should('not.exist')
+          })
+
+          it('user that has not logged in, can not edit or delete comment ', function () {
+            cy.contains('Logout')
+              .click()
+            cy.contains('logout')
+              .click()
+            cy.contains('Threads')
+              .click()
+            cy.contains('uusi threadi')
+              .click()
+            cy.get('#editComment')
+              .should('not.exist')
+            cy.contains('delete comment')
+              .should('not.exist')
           })
 
           it('it is not possible edit or delete comments of the other users', function () {
