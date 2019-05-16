@@ -49,15 +49,21 @@ const Thread = (props) => {
     const newThreadObject = props.threads.find(t => t.id === id)
     const changedThread = { ...newThreadObject, message: editedMessage }
 
-    try {
-      await props.editThread(changedThread)
-      props.setNotification('Thread edited')
-      setEditedMessage('')
+    if (changedThread.message.length < 3) {
+      props.setNotification('Message must be at least three letters long')
+    } else if (changedThread.message.length > 2000) {
+      props.setNotification('Message must be shorter than 2000 letters')
+    } else {
+      try {
+        await props.editThread(changedThread)
+        props.setNotification('Thread edited')
+        setEditedMessage('')
 
-    } catch (e) {
-      console.log(e)
-      props.setNotification('Failed to edit thread')
-      setEditedMessage('')
+      } catch (e) {
+        console.log(e)
+        props.setNotification('Failed to edit thread')
+        setEditedMessage('')
+      }
     }
   }
 
@@ -103,7 +109,7 @@ const Thread = (props) => {
         </CommentInformation>
         Comments
 
-        {threadComments.slice(active*itemsPerPage - itemsPerPage, active*itemsPerPage).map(c =>
+        {threadComments.slice(active * itemsPerPage - itemsPerPage, active * itemsPerPage).map(c =>
           <Comment key={c.id} comment={c} findUserNameById={props.findUserNameById} />)}
 
         {paginationBasic}
@@ -146,7 +152,7 @@ const Thread = (props) => {
         {showButtons && buttonFunction()}
       </CommentInformation>
       Comments
-      {threadComments.slice(active*itemsPerPage-itemsPerPage, active*itemsPerPage).map(c =>
+      {threadComments.slice(active * itemsPerPage - itemsPerPage, active * itemsPerPage).map(c =>
         <Comment comment={c} key={c.id} findUserNameById={props.findUserNameById} />)}
 
       {paginationBasic}

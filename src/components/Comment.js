@@ -36,7 +36,6 @@ const Comment = (props) => {
       await props.deleteComment(id)
       props.setNotification('Comment deleted')
     } catch (e) {
-      console.log(e)
       props.setNotification('Failed to delete comment')
     }
   }
@@ -46,14 +45,20 @@ const Comment = (props) => {
     const newCommentObject = props.comments.find(c => c.id === id)
     const changedComment = { ...newCommentObject, message: editedMessage }
 
-    try {
-      await props.editComment(changedComment)
-      props.setNotification('Comment edited')
-      setEditedMessage('')
+    if (changedComment.message.length < 3) {
+      props.setNotification('Message must be at least three letters long')
+    } else if (changedComment.message.length > 2000) {
+      props.setNotification('Message must be shorter than 2000 letters')
+    } else {
+      try {
+        await props.editComment(changedComment)
+        props.setNotification('Comment edited')
+        setEditedMessage('')
 
-    } catch (e) {
-      console.log(e)
-      props.setNotification('Failed to edit comment')
+      } catch (e) {
+        console.log(e)
+        props.setNotification('Failed to edit comment')
+      }
     }
   }
 

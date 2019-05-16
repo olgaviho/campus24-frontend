@@ -31,13 +31,19 @@ const newThreadForm = (props) => {
     setNewTitle('')
     setNewMessage('')
 
-
-    try {
-      await props.addThread(threadObject)
-      props.setNotification('New thread added')
-    } catch (e) {
-      console.log(e)
-      props.setNotification('Failed to create new comment')
+    if (threadObject.title.length < 3) {
+      props.setNotification('Title must be at least three letters long')
+    } else if (threadObject.message.length < 3) {
+      props.setNotification('Message must be at least three letters long')
+    } else if (threadObject.message.length > 2000) {
+      props.setNotification('Message must be shorter than 2000 letters')
+    } else {
+      try {
+        await props.addThread(threadObject)
+        props.setNotification('New thread added')
+      } catch (e) {
+        props.setNotification('Failed to create new comment')
+      }
     }
   }
 

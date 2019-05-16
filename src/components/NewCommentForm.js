@@ -4,11 +4,10 @@ import { setNotification } from './../reducers/notificationReducer'
 import { addComment } from './../reducers/commentsReducer'
 import { Button, TextArea } from './Style'
 
-const newCommentForm = (props) => {
-
+const newCommentForm = props => {
   const [commentMessage, setCommentMessage] = useState('')
 
-  const handleMessageChange = (event) => {
+  const handleMessageChange = event => {
     setCommentMessage(event.target.value)
   }
 
@@ -19,13 +18,19 @@ const newCommentForm = (props) => {
       userId: props.findUserIdByUsername(props.user.username).id,
       threadId: props.threadId
     }
-    try {
-      await props.addComment(commentObject)
-      props.setNotification('New comment added')
-      setCommentMessage('')
-    } catch (e) {
-      console.log(e)
-      props.setNotification('Failed to create new comment')
+
+    if (commentObject.message.length < 3) {
+      props.setNotification('Message must be at least three letters long')
+    } else if (commentObject.message.length > 2000) {
+      props.setNotification('Message must be shoter than 2000 letters')
+    } else {
+      try {
+        await props.addComment(commentObject)
+        props.setNotification('New comment added')
+        setCommentMessage('')
+      } catch (e) {
+        props.setNotification('Failed to create new comment')
+      }
     }
   }
 
@@ -33,8 +38,13 @@ const newCommentForm = (props) => {
     <div>
       <h4>Add new comment</h4>
       <div>
-        <TextArea rows='3' cols="50" value={commentMessage} id='newComment'
-          onChange={handleMessageChange} />
+        <TextArea
+          rows="3"
+          cols="50"
+          value={commentMessage}
+          id="newComment"
+          onChange={handleMessageChange}
+        />
       </div>
       <Button onClick={() => addNewComment()}>add</Button>
     </div>
@@ -46,7 +56,7 @@ const mapDispatchToProps = {
   addComment
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     notification: state.notification,
     threads: state.threads,
@@ -56,4 +66,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(newCommentForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(newCommentForm)
