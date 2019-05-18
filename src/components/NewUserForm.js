@@ -42,20 +42,26 @@ const NewUserForm = (props) => {
       password: newPassword
     }
 
-    setNewName('')
-    setNewPassword('')
-    setNewUsername('')
-
     if (newUserObject.username.length < 3) {
       props.setNotification('Username must be at least three letters long')
     } else if (newUserObject.name.length < 3) {
       props.setNotification('Name must be at least three letters long')
     } else if (newUserObject.password.length < 5) {
-      props.setNotification('Name must be at least five letters long')
+      props.setNotification('Password must be at least five letters long')
+    } else if (newUserObject.username.length > 15) {
+      props.setNotification('Username must be at shorter than 16 letters')
+    } else if (newUserObject.name.length > 15) {
+      props.setNotification('Name must be at shorter than 16 letters')
+    } else if (newUserObject.password.length > 30) {
+      props.setNotification('Password must be at shorter than 31 letters')
+
     } else {
       try {
         await props.addUser(newUserObject)
         props.setNotification('New user added!')
+        setNewName('')
+        setNewPassword('')
+        setNewUsername('')
       } catch (e) {
         props.setNotification('Username must be unique')
       }

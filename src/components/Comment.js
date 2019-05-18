@@ -9,12 +9,10 @@ const Comment = (props) => {
 
   let showButtons = false
 
-
   if (props.comment === undefined || props.comment === null) {
     return ('')
   }
 
-  // näkymä käyttäjälle, joka ei ole kirjautunut
   if (props.user === null) {
 
     return (

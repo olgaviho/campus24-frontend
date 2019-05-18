@@ -20,15 +20,15 @@ const LoginForm = (props) => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
+
     const user = {
       username: username,
       password: password
     }
     try {
       await props.login(user)
-      props.setNotification('Welcome!')
+      props.setNotification(`Welcome ${user.username}!`)
     } catch (e) {
-      console.log(e)
       props.setNotification('Wrong username or password!')
     }
   }
@@ -65,8 +65,6 @@ const LoginForm = (props) => {
       </form>
     </div>
   )
-
-
 }
 
 const mapDispatchToProps = {

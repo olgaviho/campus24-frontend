@@ -6,7 +6,6 @@ import { logout } from './../reducers/loginReducer'
 import { Button } from './Style'
 
 
-
 const Logout = (props) => {
 
   if (props.user === null) {
@@ -22,7 +21,6 @@ const Logout = (props) => {
     try {
       props.logout()
       props.setNotification('See you soon!')
-
     } catch (e) {
       console.log(e)
       props.setNotification('Logout failed!')
@@ -35,7 +33,6 @@ const Logout = (props) => {
       <Button onClick = {() => handleLogout()}>logout</Button>
     </div>
   )
-
 }
 
 const mapDispatchToProps = {

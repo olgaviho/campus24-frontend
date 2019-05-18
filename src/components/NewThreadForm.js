@@ -27,12 +27,10 @@ const newThreadForm = (props) => {
       userId: props.findUserIdByUsername(props.user.username).id
     }
 
-
-    setNewTitle('')
-    setNewMessage('')
-
     if (threadObject.title.length < 3) {
       props.setNotification('Title must be at least three letters long')
+    } else if (threadObject.title.length > 100) {
+      props.setNotification('Title must be shorter than 100 letters')
     } else if (threadObject.message.length < 3) {
       props.setNotification('Message must be at least three letters long')
     } else if (threadObject.message.length > 2000) {
@@ -41,6 +39,8 @@ const newThreadForm = (props) => {
       try {
         await props.addThread(threadObject)
         props.setNotification('New thread added')
+        setNewTitle('')
+        setNewMessage('')
       } catch (e) {
         props.setNotification('Failed to create new comment')
       }

@@ -39,7 +39,6 @@ const Thread = (props) => {
       props.setNotification('Thread deleted')
       setChangeDone(true)
     } catch (e) {
-      console.log(e)
       props.setNotification('Failed to delete thread')
     }
   }
@@ -60,7 +59,6 @@ const Thread = (props) => {
         setEditedMessage('')
 
       } catch (e) {
-        console.log(e)
         props.setNotification('Failed to edit thread')
         setEditedMessage('')
       }
