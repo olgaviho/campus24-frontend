@@ -30,23 +30,14 @@ const create = async (newObject) => {
 
 const removeUser = async (id) => {
 
-  console.log('id', id)
-
-  console.log('token', token)
-
   if (token !== null) {
-    console.log('token', token)
-
     const config = {
       headers: { Authorization: token },
     }
-    console.log('config', config)
-
     const request = axios.delete(`${baseUrl}/${id}`, config)
-    console.log('request', request)
+
     return request.then(response => response.data)
   }
-  console.log('failed')
   return null
 }
 
