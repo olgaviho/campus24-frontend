@@ -22,19 +22,18 @@ const getAll = () => {
 }
 
 const create = async (newObject) => {
-
   const response = await axios.post(baseUrl, newObject)
   return response.data
 
 }
 
-const removeUser = async (id) => {
+const removeUser = async (userId) => {
 
   if (token !== null) {
     const config = {
       headers: { Authorization: token },
     }
-    const request = axios.delete(`${baseUrl}/${id}`, config)
+    const request = axios.delete(`${baseUrl}/${userId}`, config)
 
     return request.then(response => response.data)
   }

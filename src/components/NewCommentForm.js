@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { setNotification } from './../reducers/notificationReducer'
 import { addComment } from './../reducers/commentsReducer'
+import { changeOrder } from './../reducers/threadReducer'
 import { Button, TextArea } from './Style'
 
 const newCommentForm = props => {
@@ -26,6 +27,8 @@ const newCommentForm = props => {
     } else {
       try {
         await props.addComment(commentObject)
+        const getThread = props.threads.filter(t => t.id === props.threadId)
+        await props.changeOrder(getThread[0])
         props.setNotification('New comment added')
         setCommentMessage('')
       } catch (e) {
@@ -53,7 +56,8 @@ const newCommentForm = props => {
 
 const mapDispatchToProps = {
   setNotification,
-  addComment
+  addComment,
+  changeOrder
 }
 
 const mapStateToProps = state => {

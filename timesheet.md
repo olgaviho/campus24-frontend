@@ -29,3 +29,4 @@
 | 15.5.2019 | 3 | 82 | did more tests with cypress and sorted threads |
 | 16.5.2019 | 3 | 85 | created instuctions and set min and max length to messages, usernames etc. |
 | 18.5.2019 | 2,5 | 87,5 | modified instructions, notifications and made new deploy |
+| 4.9.2019 | 3 | 90,5 | made a todo-list for new features, started update the order of threads |

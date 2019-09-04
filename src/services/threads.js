@@ -28,7 +28,6 @@ const create = async (newObject) => {
       headers: { Authorization: token },
     }
     const response = await axios.post(baseUrl, newObject, config)
-
     return response.data
   }
   return null
@@ -36,11 +35,16 @@ const create = async (newObject) => {
 }
 
 
-const update = (newObject) => {
+const update = (newObject, loggedUserId) => {
 
   if (token !== null) {
     const config = {
       headers: { Authorization: token },
+    }
+
+    const data = {
+      loggedUserId: loggedUserId,
+      newObject: newObject
     }
 
     const request = axios.put(`${baseUrl}/${newObject.id}`, newObject, config)
@@ -50,7 +54,7 @@ const update = (newObject) => {
   return null
 }
 
-const removeThread = (id) => {
+const removeThread = (threadId, loggedUserId) => {
 
   if (token !== null){
 
@@ -58,7 +62,12 @@ const removeThread = (id) => {
       headers: { Authorization: token },
     }
 
-    const request = axios.delete(`${baseUrl}/${id}`, config)
+    const data = {
+      threadId: threadId,
+      loggedUserId: loggedUserId
+    }
+
+    const request = axios.delete(`${baseUrl}/${threadId}`, data, config)
     return request.then(response => response.data)
   }
   return null

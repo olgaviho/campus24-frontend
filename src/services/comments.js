@@ -27,7 +27,6 @@ const create = async (newObject) => {
     const config = {
       headers: { Authorization: token },
     }
-      
     const response = await axios.post(baseUrl, newObject, config)
     return response.data
   }
@@ -35,11 +34,16 @@ const create = async (newObject) => {
 }
 
 
-const update = async (updatedObject) => {
+const update = async (updatedObject, loggedUserId) => {
 
   if (token!== null) {
     const config = {
       headers: { Authorization: token },
+    }
+
+    const data = {
+      loggedUserId: loggedUserId,
+      updatedObject: updatedObject
     }
 
     const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject, config)
@@ -50,15 +54,20 @@ const update = async (updatedObject) => {
   return null
 }
 
-const removeComment = async (id) => {
+const removeComment = async (commentId, loggedUserId) => {
 
 
   if (token!==null) {
     const config = {
       headers: { Authorization: token },
     }
-    const response = await axios.delete(`${baseUrl}/${id}`, config)
- 
+
+    const data = {
+      commentId: commentId,
+      loggedUserId: loggedUserId
+    }
+    const response = await axios.delete(`${baseUrl}/${commentId}`, data, config)
+
     return response.data
   }
   return null

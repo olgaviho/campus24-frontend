@@ -15,6 +15,9 @@ const threadReducer = (state = [], action) => {
   case 'DELETE_THREAD':
     const newstate = state.filter(s => s.id !== action.data)
     return newstate
+  case 'CHANGE_ORDER':
+    const newOrder = state.filter(s => s.id !== action.data.id)
+    return [action.data,...newOrder]
   default:
     return state
   }
@@ -48,6 +51,15 @@ export const editThread = (data) => {
     dispatch({
       type: 'EDIT_THREAD',
       data: editedThread
+    })
+  }
+}
+
+export const changeOrder = (thread) => {
+  return async dispatch => {
+    dispatch({
+      type: 'CHANGE_ORDER',
+      data: thread
     })
   }
 }
