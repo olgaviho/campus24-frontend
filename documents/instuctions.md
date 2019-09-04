@@ -1,20 +1,19 @@
 # Instructions <h1>
-
 Open app in [Heroku](https://campus24.herokuapp.com/).
 
-## Create new user <h2>
+## Create new user <h3>
 You can create a new user by clicking _create new user_. After that type username, name and password. Then click _Add a new user_. 
 
-## Log in <h3>
+## Log in <h4>
 You can log in by clicking _Login_. After that type username and password and click _login_. If password and username were correct you get a notification: _Welcome_.
 
-## Log out <h4>
+## Log out <h5>
 You can log out by clicking _Logout_ after this you can confirm wanting to log out by clicking _logout_.
 
-## Create new thread <h5> 
+## Create new thread <h6> 
 You can create a new thread after logging in by clicking _Create new thread_ , typing title and message and clicking _add_.
 
-## Delete thread <h6>
+## Delete thread <h7>
 Click _Threads_ and afterwards the name of the thread. Then click _delete_. It is possible to delete only own threads.
 
 ## Edit thread <h7>
