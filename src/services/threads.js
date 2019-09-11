@@ -34,17 +34,14 @@ const create = async (newObject) => {
 
 }
 
-
 const update = (newObject) => {
-
-  console.log('token', token)
 
   if (token !== null) {
     const config = {
       headers: { Authorization: token },
     }
 
-    console.log('config', config)
+
     const request = axios.put(`${baseUrl}/${newObject.id}`, newObject, config)
     return request.then(response => response.data)
   }
@@ -54,14 +51,11 @@ const update = (newObject) => {
 
 const removeThread = (id) => {
 
-  console.log('token', token)
-
   if (token !== null) {
     const config = {
       headers: { Authorization: token },
     }
 
-    console.log('config', config)
     const request = axios.delete(`${baseUrl}/${id}`, config)
     return request.then(response => response.data)
   }
