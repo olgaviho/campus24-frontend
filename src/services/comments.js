@@ -34,17 +34,13 @@ const create = async (newObject) => {
 }
 
 
-const update = async (updatedObject, loggedUserId) => {
+const update = async (updatedObject) => {
 
   if (token!== null) {
     const config = {
       headers: { Authorization: token },
     }
 
-    const data = {
-      loggedUserId: loggedUserId,
-      updatedObject: updatedObject
-    }
 
     const response = await axios.put(`${baseUrl}/${updatedObject.id}`, updatedObject, config)
 
@@ -54,7 +50,9 @@ const update = async (updatedObject, loggedUserId) => {
   return null
 }
 
-const removeComment = async (commentId, loggedUserId) => {
+const removeComment = async (commentId) => {
+
+  console.log('token', token)
 
 
   if (token!==null) {
@@ -62,11 +60,7 @@ const removeComment = async (commentId, loggedUserId) => {
       headers: { Authorization: token },
     }
 
-    const data = {
-      commentId: commentId,
-      loggedUserId: loggedUserId
-    }
-    const response = await axios.delete(`${baseUrl}/${commentId}`, data, config)
+    const response = await axios.delete(`${baseUrl}/${commentId}`, config)
 
     return response.data
   }
