@@ -4,10 +4,11 @@ import LoginForm from './components/Login'
 import NewUserFrom from './components/NewUserForm'
 import Notification from './components/Notification'
 import AllThreads from './components/AllThreads'
+import Search from './components/Search'
 import Logout from './components/Logout'
 import Thread from './components/Thread'
 import DeleteAccount from './components/DeleteAccount'
-import { Page, Navigation, Title } from './components/Style'
+import { Page, Navigation, Title, SmallButton, Input } from './components/Style'
 
 import './index.css'
 import { connect } from 'react-redux'
@@ -75,6 +76,10 @@ const App = (props) => {
                   {props.user !== null && <Link style={padding} to="/logout">Logout</Link>}
                   {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
                   {props.user !== null && <Link style={padding} to="/deleteAccount">Delete account</Link>}
+                  <Input type="text" id='Search'/>
+                  <SmallButton>
+                    Search
+                  </SmallButton>
                 </Navigation>
               </Title>
               {props.notification !== null && <Notification />}

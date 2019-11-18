@@ -32,3 +32,4 @@
 | 4.9.2019 | 3 | 90,5 | made a todo-list for new features, started update the order of threads |
 | 11.9.2019 | 4 | 94,5 | now it is possible delete and edit only own threads |
 | 15.11.2019 | 6 | 100,5 | now it is possible delete and edit only own comments and own user |
+| 18.11.2019 | 2 | 102,5 | started a new feature: search |
