@@ -8,7 +8,7 @@ import Search from './components/Search'
 import Logout from './components/Logout'
 import Thread from './components/Thread'
 import DeleteAccount from './components/DeleteAccount'
-import { Page, Navigation, Title, SmallButton, Input } from './components/Style'
+import { Page, Navigation, Title } from './components/Style'
 
 import './index.css'
 import { connect } from 'react-redux'
@@ -76,16 +76,14 @@ const App = (props) => {
                   {props.user !== null && <Link style={padding} to="/logout">Logout</Link>}
                   {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
                   {props.user !== null && <Link style={padding} to="/deleteAccount">Delete account</Link>}
-                  <Input type="text" id='Search'/>
-                  <SmallButton>
-                    Search
-                  </SmallButton>
+                  <Link style={padding} to="/search">Search</Link>
                 </Navigation>
               </Title>
               {props.notification !== null && <Notification />}
             </div>
             <Route exact path="/" render={() => <AllThreads findUserNameById={findUserNameById} />} />
             <Route exact path="/login" render={() => <LoginForm />} />
+            <Route exact path="/search" render={() => <Search />} />
             <Route exact path="/create" render={() => <NewUserFrom />} />
             <Route exact path="/logout" render={() => <Logout />} />
             <Route exact path="/deleteAccount" render={() => <DeleteAccount />} />
