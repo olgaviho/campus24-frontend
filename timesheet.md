@@ -35,3 +35,4 @@
 | 18.11.2019 | 2 | 102,5 | started a new feature: search |
 | 25.11.2019 | 6 | 108,5 | now search is almost working |
 | 9.12.2019 | 6 | 114,5 | started to do backend tests with jest |
+| 10.12.2019 | 6 | 120,5 | did more tests with jest and supertest |
