@@ -34,5 +34,8 @@
 | 15.11.2019 | 6 | 100,5 | now it is possible delete and edit only own comments and own user |
 | 18.11.2019 | 2 | 102,5 | started a new feature: search |
 | 25.11.2019 | 6 | 108,5 | now search is almost working |
-| 9.12.2019 | 6 | 114,5 | started to do backend tests with jest |
-| 10.12.2019 | 6 | 120,5 | did more tests with jest and supertest |
+| 9.12.2019 | 6 | 114,5 | started to do backend tests for threads with jest |
+| 10.12.2019 | 6 | 120,5 | did more tests for user with jest |
+| 11.12.2019 | 4 | 124,5 | did more tests for users and threads with jest |
+| 12.12.2019 | 4 | 128,5 | did more tests for threads with jest |
+| 13.12.2019 | 5 | 133,5 | did more tests for threads and comments with jest |
