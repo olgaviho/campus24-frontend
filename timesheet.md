@@ -39,3 +39,4 @@
 | 11.12.2019 | 4 | 124,5 | did more tests for users and threads with jest |
 | 12.12.2019 | 4 | 128,5 | did more tests for threads with jest |
 | 13.12.2019 | 5 | 133,5 | did more tests for threads and comments with jest |
+| 16.12.2019 | 4 | 137,5 | did more tests for comments with jest |
