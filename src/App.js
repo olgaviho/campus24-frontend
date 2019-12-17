@@ -83,7 +83,7 @@ const App = (props) => {
             </div>
             <Route exact path="/" render={() => <AllThreads findUserNameById={findUserNameById} />} />
             <Route exact path="/login" render={() => <LoginForm />} />
-            <Route exact path="/search" render={() => <Search />} />
+            <Route exact path="/search" render={() => <Search findUserNameById={findUserNameById} />} />
             <Route exact path="/create" render={() => <NewUserFrom />} />
             <Route exact path="/logout" render={() => <Logout />} />
             <Route exact path="/deleteAccount" render={() => <DeleteAccount />} />
