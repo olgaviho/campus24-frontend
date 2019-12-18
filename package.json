@@ -16,7 +16,9 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "styled-components": "^4.2.0"
+    "styled-button-component": "^4.0.0",
+    "styled-components": "^4.2.0",
+    "styled-dropdown-component": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",

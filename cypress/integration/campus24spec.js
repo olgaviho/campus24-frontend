@@ -215,6 +215,16 @@ describe('Campus24 ', function () {
               .click()
             cy.contains('New comment added')
             cy.contains('uusi kommentti')
+            cy.wait(3000)
+
+            cy.contains('Add new comment')
+            cy.get('#newComment')
+              .type('perunat on kivoja')
+            cy.wait(3000)
+            cy.contains('add')
+              .click()
+            cy.contains('New comment added')
+            cy.contains('uusi kommentti')
           })
 
           it('logged user can edit and delete comment', function () {
@@ -239,6 +249,20 @@ describe('Campus24 ', function () {
             cy.contains('Comment deleted')
             cy.contains('uusi kommentti')
               .should('not.exist')
+          })
+
+          it('search is working', function () {
+            cy.contains('Search')
+              .click()
+            cy.contains('uusi threadi')
+              .should('not.exist')
+            cy.get('#searchWord')
+              .type('peru')
+            cy.contains('kivoja')
+            cy.contains('uusi threadi')
+              .click()
+            cy.contains('uusi kommentti')
+
           })
 
           it('user that has not logged in, can not edit or delete comment ', function () {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Input, CommentInformation, CommentText, SmallButton } from './Style'
+import { Input, CommentInformation, CommentText } from './Style'
+import { Link } from 'react-router-dom'
 
 
 const Search = (props) => {
@@ -42,13 +43,16 @@ const Search = (props) => {
       <Input value={searchWord} id='searchWord'
         onChange={handleSearchWordChange} />
       {commentsToShow().map(c =>
-        <CommentInformation key = {c.id} > Author: {props.findUserNameById(c.user)} Date: {c.date}
+
+        <CommentInformation key={c.id} > Author: {props.findUserNameById(c.user)} Date: {c.date}
           <CommentText> {c.message} </CommentText>
-          <SmallButton> View thread </SmallButton>
+          Thread: <Link key={c.thread} to={`/thread/${c.thread}`}> {props.findThreadById(c.thread).title} </Link>
         </CommentInformation>
+
       )}
     </div>
-  )}
+  )
+}
 
 
 const mapStateToProps = (state) => {
