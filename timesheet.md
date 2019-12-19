@@ -41,4 +41,5 @@
 | 13.12.2019 | 5 | 133,5 | did more tests for threads and comments with jest |
 | 16.12.2019 | 4 | 137,5 | did more tests for comments with jest |
 | 17.12.2019 | 5 | 142,5 | did more tests for comments with jest and fixed search |
-| 18.12.2019 | 4 | 146,5 | fixed search again, made tests for it with cypress and started doing a dropdown menu|
+| 18.12.2019 | 4 | 146,5 | fixed search again, made tests for it with cypress and started doing a dropdown menu |
+| 19.12.2019 | 6 | 152,5 | fixed dropdown menu, now it possible edit password and made tests for editing |

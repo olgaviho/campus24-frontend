@@ -28,17 +28,13 @@ const DeleteAccount = (props) => {
       props.logout()
 
     } catch (e) {
-      console.log('error:', e)
       props.setNotification('Could not delete account!')
     }
   }
 
   return (
     <div>
-      Are you sure that you want to delete your account?
-      <div>
-        <Button onClick={() => deleteAccountFunction()}>Confirm</Button>
-      </div>
+      <Button onClick={() => deleteAccountFunction()}>Delete Account</Button>
     </div>
   )
 }

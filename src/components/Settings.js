@@ -2,11 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { setNotification } from './../reducers/notificationReducer'
-import { logout } from './../reducers/loginReducer'
 import { Button } from './Style'
+import DeleteAccount from './DeleteAccount'
+import EditPassword from './EditPassword'
 
 
-const Logout = (props) => {
+const Settings = (props) => {
 
   if (props.user === null) {
     return (
@@ -16,26 +17,20 @@ const Logout = (props) => {
     )
   }
 
-  const handleLogout = () => {
-
-    try {
-      props.logout()
-      props.setNotification('See you soon!')
-    } catch (e) {
-      props.setNotification('Logout failed!')
-    }
-  }
 
   return (
     <div>
-      <h3>Logout</h3>
-      <Button onClick = {() => handleLogout()}>logout</Button>
+      <h3>Settings</h3>
+
+      <h5>Change password</h5>
+      <EditPassword/>
+      <h5>Delete Account</h5>
+      <DeleteAccount/>
     </div>
   )
 }
 
 const mapDispatchToProps = {
-  logout,
   setNotification
 }
 
@@ -45,4 +40,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Logout)
+export default connect(mapStateToProps, mapDispatchToProps)(Settings)

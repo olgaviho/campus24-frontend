@@ -7,8 +7,8 @@ import AllThreads from './components/AllThreads'
 import Search from './components/Search'
 import Logout from './components/Logout'
 import Thread from './components/Thread'
-import DeleteAccount from './components/DeleteAccount'
-import { Page, Navigation, Title, DropdownMenuItem, Button, DropdownMenuButton } from './components/Style'
+import Settings from './components/Settings'
+import { Page, Navigation, Title, DropdownMenuItem, DropdownMenuButton } from './components/Style'
 
 import './index.css'
 import { connect } from 'react-redux'
@@ -76,14 +76,10 @@ const App = (props) => {
                 <h1>Campus24</h1>
                 <Navigation>
                   <Link style={padding} to="/">Threads</Link>
-                  {props.user === null &&
-                    <Link style={padding} to="/login">Login</Link>}
-                  {props.user === null &&
-                    <Link style={padding} to="/create">Create new user</Link>}
-                  {props.user !== null && <Link style={padding} to="/logout">Logout</Link>}
-                  {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
-                  {props.user !== null && <Link style={padding} to="/deleteAccount">Delete account</Link>}
+
                   <Link style={padding} to="/search">Search</Link>
+
+                  {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
 
                   <DropdownMenuItem>
                     <Dropdown>
@@ -91,12 +87,13 @@ const App = (props) => {
                         Menu
                       </DropdownMenuButton>
                       <DropdownMenu hidden={hidden} toggle={() => setHidden(!hidden)}>
-                        <DropdownItem>Logout</DropdownItem>
-                        <DropdownItem>Settings</DropdownItem>
+                        {props.user !== null && <Link to="/logout"><DropdownItem>Logout</DropdownItem></Link>}
+                        {props.user !== null && <Link to="/settings"><DropdownItem>Settings</DropdownItem></Link>}
+                        {props.user === null && <Link to="/login"><DropdownItem>Login</DropdownItem></Link>}
+                        {props.user === null && <Link to="/create"><DropdownItem>Create</DropdownItem></Link>}
                       </DropdownMenu>
                     </Dropdown>
                   </DropdownMenuItem>
-
 
                 </Navigation>
               </Title>
@@ -107,7 +104,7 @@ const App = (props) => {
             <Route exact path="/search" render={() => <Search findUserNameById={findUserNameById} findThreadById={findThreadById} />} />
             <Route exact path="/create" render={() => <NewUserFrom />} />
             <Route exact path="/logout" render={() => <Logout />} />
-            <Route exact path="/deleteAccount" render={() => <DeleteAccount />} />
+            <Route exact path="/settings" render={() => <Settings />} />
             <Route exact path="/addNewThread" render={() => <NewThreadForm findUserIdByUsername={findUserIdByUsername} />} />
             <Route exact path="/thread/:id" render={({ match }) =>
               <Thread thread={findThreadById(match.params.id)}
@@ -124,7 +121,7 @@ const mapDispatchToProps = {
   initializeThreads,
   initializeComments,
   initializeUsers,
-  setUser
+  setUser,
 }
 
 const mapStateToProps = (state) => {
