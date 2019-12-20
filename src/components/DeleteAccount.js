@@ -34,7 +34,7 @@ const DeleteAccount = (props) => {
 
   return (
     <div>
-      <Button onClick={() => deleteAccountFunction()}>Delete Account</Button>
+      <Button id='deleteAccount' name='deleteAccount' onClick={() => deleteAccountFunction()}>Delete </Button>
     </div>
   )
 }

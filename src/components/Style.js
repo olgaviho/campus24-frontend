@@ -87,5 +87,10 @@ const DropdownMenuButton = styled.div`
   padding: 0.1em 1em;
   `
 
+const LogoutButton = styled.div`
+  background: white;
+  font-size: 1em;
+  border: 1px solid white;
+  `
 
-export { DropdownMenuItem, DropdownMenuButton, TextArea, Title, CommentInformation, CommentText, Button, Input, Page, Navigation, HappyNotification, OneThread, SmallButton }
+export { LogoutButton, DropdownMenuItem, DropdownMenuButton, TextArea, Title, CommentInformation, CommentText, Button, Input, Page, Navigation, HappyNotification, OneThread, SmallButton }

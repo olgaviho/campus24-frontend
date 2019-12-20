@@ -10,13 +10,14 @@ describe('Campus24 ', function () {
 
   it('front page contains navigation menu', function () {
     cy.contains('Threads')
-    cy.contains('Login')
-    cy.contains('Create new user')
+    cy.contains('Search')
   })
 
 
   it('user can create a new user', function () {
-    cy.contains('Create new user')
+    cy.contains('Menu')
+      .click()
+    cy.get('#createUserItem')
       .click()
     cy.get('#newUsername')
       .type('peruna')
@@ -29,6 +30,40 @@ describe('Campus24 ', function () {
     cy.contains('New user added')
   })
 
+  it('password must be longer than 2 letters', function () {
+    cy.contains('Menu')
+      .click()
+    cy.get('#createUserItem')
+      .click()
+    cy.get('#newUsername')
+      .type('saapas')
+    cy.get('#newName')
+      .type('bataatti')
+    cy.get('#newPassword')
+      .type('s')
+    cy.contains('Add')
+      .click()
+    cy.contains('New user added')
+      .should('not.exist')
+  })
+
+  it('username must be longer than 2 letters', function () {
+    cy.contains('Menu')
+      .click()
+    cy.get('#createUserItem')
+      .click()
+    cy.get('#newUsername')
+      .type('s')
+    cy.get('#newName')
+      .type('bataatti')
+    cy.get('#newPassword')
+      .type('peruna')
+    cy.contains('Add')
+      .click()
+    cy.contains('New user added')
+      .should('not.exist')
+  })
+
   it('user that has not logged in can not create a new thread', function() {
     cy.contains('Add a new thread')
       .should('not.exist')
@@ -36,7 +71,9 @@ describe('Campus24 ', function () {
 
   describe('When there is a user in the database', function () {
     beforeEach(function () {
-      cy.contains('Create new user')
+      cy.contains('Menu')
+        .click()
+      cy.get('#createUserItem')
         .click()
       cy.get('#newUsername')
         .type('peruna')
@@ -50,7 +87,9 @@ describe('Campus24 ', function () {
     })
 
     it('it is not possible to create new user with same username', function () {
-      cy.contains('Create new user')
+      cy.contains('Menu')
+        .click()
+      cy.get('#createUserItem')
         .click()
       cy.get('#newUsername')
         .type('peruna')
@@ -64,7 +103,9 @@ describe('Campus24 ', function () {
     })
 
     it('user can login and logout with correct credentials', function () {
-      cy.contains('Login')
+      cy.contains('Menu')
+        .click()
+      cy.get('#loginItem')
         .click()
       cy.get('#Username')
         .type('peruna')
@@ -74,15 +115,18 @@ describe('Campus24 ', function () {
         .click()
       cy.contains('Welcome')
 
-      cy.contains('Logout')
+
+      cy.contains('Menu')
         .click()
-      cy.contains('logout')
+      cy.get('#logoutItem')
         .click()
       cy.contains('See you soon')
     })
 
     it('user can not login if username is wrong', function () {
-      cy.contains('Login')
+      cy.contains('Menu')
+        .click()
+      cy.get('#loginItem')
         .click()
       cy.get('#Username')
         .type('saapas95')
@@ -94,7 +138,9 @@ describe('Campus24 ', function () {
     })
 
     it('user can not login if password is wrong', function () {
-      cy.contains('Login')
+      cy.contains('Menu')
+        .click()
+      cy.get('#loginItem')
         .click()
       cy.get('#Username')
         .type('peruna')
@@ -109,7 +155,9 @@ describe('Campus24 ', function () {
 
     describe('When logged in ', function () {
       beforeEach(function () {
-        cy.contains('Login')
+        cy.contains('Menu')
+          .click()
+        cy.get('#loginItem')
           .click()
         cy.get('#Username')
           .type('peruna')
@@ -146,9 +194,9 @@ describe('Campus24 ', function () {
         })
 
         it('user that has not logged in, can not edit or delete thread ', function () {
-          cy.contains('Logout')
+          cy.contains('Menu')
             .click()
-          cy.contains('logout')
+          cy.get('#logoutItem')
             .click()
           cy.contains('Threads')
             .click()
@@ -266,10 +314,11 @@ describe('Campus24 ', function () {
           })
 
           it('user that has not logged in, can not edit or delete comment ', function () {
-            cy.contains('Logout')
+            cy.contains('Menu')
               .click()
-            cy.contains('logout')
+            cy.get('#logoutItem')
               .click()
+
             cy.contains('Threads')
               .click()
             cy.contains('uusi threadi')
@@ -281,12 +330,12 @@ describe('Campus24 ', function () {
           })
 
           it('it is not possible edit or delete comments of the other users', function () {
-            cy.contains('Logout')
+            cy.contains('Menu')
               .click()
-            cy.contains('logout')
+            cy.get('#logoutItem')
               .click()
 
-            cy.contains('Create new user')
+            cy.get('#createUserItem')
               .click()
             cy.get('#newUsername')
               .type('leijona')
@@ -297,7 +346,9 @@ describe('Campus24 ', function () {
             cy.contains('Add')
               .click()
 
-            cy.contains('Login')
+            cy.contains('Menu')
+              .click()
+            cy.get('#loginItem')
               .click()
             cy.get('#Username')
               .type('leijona')
@@ -321,12 +372,16 @@ describe('Campus24 ', function () {
           })
 
           it('it is possible to delete account', function () {
-            cy.contains('Delete account')
+            cy.contains('Menu')
               .click()
-            cy.contains('Confirm')
+            cy.get('#settingsItem')
+              .click()
+            cy.get('#deleteAccount')
               .click()
 
-            cy.contains('Login')
+            cy.contains('Menu')
+              .click()
+            cy.get('#loginItem')
               .click()
             cy.get('#Username')
               .type('olgaviho')

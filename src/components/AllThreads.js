@@ -45,7 +45,7 @@ const allThreads = (props) => {
           <Link key={t.id} to={`/thread/${t.id}`}> {t.title} </Link>
           &nbsp;&nbsp; comments {countComments(t)}
 
-          &nbsp;&nbsp; started by: {props.findUserNameById(t.user)}
+          &nbsp;&nbsp; started by: <Link key={t.user} to={`/user/${t.user}`}> {props.findUserNameById(t.user)} </Link>
 
         </OneThread>
       )}

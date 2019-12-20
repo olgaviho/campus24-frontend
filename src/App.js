@@ -5,17 +5,18 @@ import NewUserFrom from './components/NewUserForm'
 import Notification from './components/Notification'
 import AllThreads from './components/AllThreads'
 import Search from './components/Search'
-import Logout from './components/Logout'
 import Thread from './components/Thread'
+import User from './components/User'
 import Settings from './components/Settings'
-import { Page, Navigation, Title, DropdownMenuItem, DropdownMenuButton } from './components/Style'
+import { Page, Navigation, Title, DropdownMenuItem, DropdownMenuButton, LogoutButton } from './components/Style'
 
 import './index.css'
 import { connect } from 'react-redux'
 import { initializeThreads } from './reducers/threadReducer'
 import { initializeComments } from './reducers/commentsReducer'
 import { initializeUsers } from './reducers/usersReducer'
-import { setUser } from './reducers/loginReducer'
+import { setUser, logout } from './reducers/loginReducer'
+import { setNotification } from './reducers/notificationReducer'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import {
@@ -48,17 +49,36 @@ const App = (props) => {
 
   const findUserNameById = (id) => {
 
-    const user = props.users.find(u => u.id === id)
-    if (user === null || user === undefined) {
+    const us = props.users.find(u => u.id === id)
+    if (us === null || us === undefined) {
       return 'unknown user'
     }
-    return user.username
+    return us.username
+  }
+
+  const findUserById = (id) => {
+
+    const us = props.users.find(u => u.id === id)
+    if (us === null || us === undefined) {
+      return 'unknown user'
+    }
+    return us
   }
 
   const findThreadById = (id) => {
     const thread = props.threads.find(t => t.id === id)
     return thread
 
+  }
+
+  const handleLogout = () => {
+
+    try {
+      props.logout()
+      props.setNotification('See you soon!')
+    } catch (e) {
+      props.setNotification('Logout failed!')
+    }
   }
 
 
@@ -83,14 +103,14 @@ const App = (props) => {
 
                   <DropdownMenuItem>
                     <Dropdown>
-                      <DropdownMenuButton dropdownToggle onClick={() => setHidden(!hidden)}>
+                      <DropdownMenuButton dropdownToggle onClick={() => setHidden(!hidden)} id = 'dropdown' name= 'dropdown'>
                         Menu
                       </DropdownMenuButton>
                       <DropdownMenu hidden={hidden} toggle={() => setHidden(!hidden)}>
-                        {props.user !== null && <Link to="/logout"><DropdownItem>Logout</DropdownItem></Link>}
-                        {props.user !== null && <Link to="/settings"><DropdownItem>Settings</DropdownItem></Link>}
-                        {props.user === null && <Link to="/login"><DropdownItem>Login</DropdownItem></Link>}
-                        {props.user === null && <Link to="/create"><DropdownItem>Create</DropdownItem></Link>}
+                        {props.user !== null && <LogoutButton onClick = {() => handleLogout()}> <DropdownItem id='logoutItem' name='logoutItem'>Logout</DropdownItem> </LogoutButton>}
+                        {props.user !== null && <Link to="/settings" ><DropdownItem id='settingsItem' name='settingItem'>Settings</DropdownItem></Link>}
+                        {props.user === null && <Link to="/login"><DropdownItem id='loginItem' name='loginItem'>Login</DropdownItem></Link>}
+                        {props.user === null && <Link to="/create" ><DropdownItem id='createUserItem' name='createUserItem'>Create User</DropdownItem></Link>}
                       </DropdownMenu>
                     </Dropdown>
                   </DropdownMenuItem>
@@ -103,12 +123,14 @@ const App = (props) => {
             <Route exact path="/login" render={() => <LoginForm />} />
             <Route exact path="/search" render={() => <Search findUserNameById={findUserNameById} findThreadById={findThreadById} />} />
             <Route exact path="/create" render={() => <NewUserFrom />} />
-            <Route exact path="/logout" render={() => <Logout />} />
             <Route exact path="/settings" render={() => <Settings />} />
             <Route exact path="/addNewThread" render={() => <NewThreadForm findUserIdByUsername={findUserIdByUsername} />} />
             <Route exact path="/thread/:id" render={({ match }) =>
               <Thread thread={findThreadById(match.params.id)}
                 findUserIdByUsername={findUserIdByUsername} findUserNameById={findUserNameById} />}
+            />
+            <Route exact path="/user/:id" render={({ match }) =>
+              <User us={findUserById(match.params.id)} />}
             />
           </div>
         </Router>
@@ -122,6 +144,8 @@ const mapDispatchToProps = {
   initializeComments,
   initializeUsers,
   setUser,
+  logout,
+  setNotification
 }
 
 const mapStateToProps = (state) => {
