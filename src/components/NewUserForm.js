@@ -49,11 +49,11 @@ const NewUserForm = (props) => {
     } else if (newUserObject.password.length < 5) {
       props.setNotification('Password must be at least five letters long')
     } else if (newUserObject.username.length > 15) {
-      props.setNotification('Username must be at shorter than 16 letters')
+      props.setNotification('Username must be shorter than 16 letters')
     } else if (newUserObject.name.length > 15) {
-      props.setNotification('Name must be at shorter than 16 letters')
+      props.setNotification('Name must be shorter than 16 letters')
     } else if (newUserObject.password.length > 30) {
-      props.setNotification('Password must be at shorter than 31 letters')
+      props.setNotification('Password must be shorter than 31 letters')
 
     } else {
       try {
