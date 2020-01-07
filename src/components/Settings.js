@@ -2,9 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { setNotification } from './../reducers/notificationReducer'
-import { Button } from './Style'
 import DeleteAccount from './DeleteAccount'
 import EditPassword from './EditPassword'
+import { Button } from './Style'
 
 
 const Settings = (props) => {

@@ -93,4 +93,8 @@ const LogoutButton = styled.div`
   border: 1px solid white;
   `
 
-export { LogoutButton, DropdownMenuItem, DropdownMenuButton, TextArea, Title, CommentInformation, CommentText, Button, Input, Page, Navigation, HappyNotification, OneThread, SmallButton }
+const ThreadInformation = styled.div`
+  font-size: 0.75em;
+  `
+
+export { ThreadInformation, LogoutButton, DropdownMenuItem, DropdownMenuButton, TextArea, Title, CommentInformation, CommentText, Button, Input, Page, Navigation, HappyNotification, OneThread, SmallButton }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
+import { useHistory, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
 import { addUser } from './../reducers/usersReducer'
 import { setNotification } from './../reducers/notificationReducer'
 import { Input, Button } from './Style'
@@ -16,6 +16,7 @@ const NewUserForm = (props) => {
     )
   }
 
+  let history = useHistory()
   const [newUsername, setNewUsername] = useState('')
   const [newName, setNewName] = useState('')
   const [newPassword, setNewPassword] = useState('')
@@ -26,7 +27,6 @@ const NewUserForm = (props) => {
 
   const handleNewUsernameChange = (event) => {
     setNewUsername(event.target.value)
-
   }
 
   const handleNewPasswordChange = (event) => {
@@ -35,6 +35,7 @@ const NewUserForm = (props) => {
 
   const createNewUser = async (event) => {
     event.preventDefault()
+
 
     const newUserObject = {
       name: newName,
@@ -62,6 +63,7 @@ const NewUserForm = (props) => {
         setNewName('')
         setNewPassword('')
         setNewUsername('')
+        history.push("/login")
       } catch (e) {
         props.setNotification('Username must be unique')
       }

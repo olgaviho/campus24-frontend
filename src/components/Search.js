@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Input, CommentInformation, CommentText } from './Style'
-import { Link } from 'react-router-dom'
 
 
 const Search = (props) => {

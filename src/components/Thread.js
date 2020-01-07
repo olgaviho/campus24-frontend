@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import Comment from './Comment'
 import NewCommentForm from './NewCommentForm'
-import { connect } from 'react-redux'
 import { deleteThread, editThread } from './../reducers/threadReducer'
 import { setNotification } from './../reducers/notificationReducer'
-import { Redirect } from 'react-router-dom'
 import { SmallButton, Input, CommentInformation, CommentText } from './Style'
 import Pagination from 'react-bootstrap/Pagination'
 
@@ -47,7 +47,6 @@ const Thread = (props) => {
 
     const newThreadObject = props.threads.find(t => t.id === id)
     const changedThread = { ...newThreadObject, message: editedMessage }
-
     if (changedThread.message.length < 3) {
       props.setNotification('Message must be at least three letters long')
     } else if (changedThread.message.length > 2000) {
@@ -64,8 +63,6 @@ const Thread = (props) => {
       }
     }
   }
-
-
 
   const findComments = () => {
     const threadComments = props.comments.filter(c => c.thread === props.thread.id)
@@ -97,7 +94,6 @@ const Thread = (props) => {
 
   if (props.user === null) {
 
-
     return (
       <div className='thread'>
         <CommentInformation>
@@ -106,10 +102,8 @@ const Thread = (props) => {
           <CommentText>{props.thread.message}</CommentText>
         </CommentInformation>
         Comments
-
         {threadComments.slice(active * itemsPerPage - itemsPerPage, active * itemsPerPage).map(c =>
           <Comment key={c.id} comment={c} findUserNameById={props.findUserNameById} />)}
-
         {paginationBasic}
       </div>
     )
@@ -123,7 +117,6 @@ const Thread = (props) => {
           onChange={handleEditedChange} />
         <SmallButton onClick={() => editThread(props.thread.id, editedMessage)}> edit </SmallButton>
       </div>
-
       <SmallButton id='deleteThread' onClick={() => deleteThread(props.thread.id)}> delete </SmallButton>
     </div>
   )
@@ -133,7 +126,6 @@ const Thread = (props) => {
   const findUserIdByUsername = (username) => {
     const user = props.users.find(u => u.username === username)
     return user
-
   }
 
   if (findUserIdByUsername(props.user.username) !== undefined && props.thread.user === findUserIdByUsername(props.user.username).id) {
@@ -152,7 +144,6 @@ const Thread = (props) => {
       Comments
       {threadComments.slice(active * itemsPerPage - itemsPerPage, active * itemsPerPage).map(c =>
         <Comment comment={c} key={c.id} findUserNameById={props.findUserNameById} />)}
-
       {paginationBasic}
       <NewCommentForm
         findUserIdByUsername={props.findUserIdByUsername}

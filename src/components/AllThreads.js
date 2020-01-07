@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { OneThread } from './Style'
+import { OneThread, ThreadInformation, CommentText } from './Style'
 import Pagination from 'react-bootstrap/Pagination'
 
 const allThreads = (props) => {
@@ -18,14 +18,14 @@ const allThreads = (props) => {
   let items = []
   const numberOfItems = props.threads.length
   const itemsPerPage = 5
-  const numberOfpages = Math.ceil(numberOfItems/itemsPerPage)
+  const numberOfpages = Math.ceil(numberOfItems / itemsPerPage)
 
   for (let number = 1; number <= numberOfpages; number++) {
     items.push(
       <Pagination.Item onClick={() => {
         setClickState(number)
       }}
-      key={number} active={number === active}>
+        key={number} active={number === active}>
         {number}
       </Pagination.Item>
     )
@@ -40,18 +40,18 @@ const allThreads = (props) => {
 
   return (
     <div>
-      {props.threads.slice(active*itemsPerPage - itemsPerPage, active*itemsPerPage).map(t =>
+      {props.threads.slice(active * itemsPerPage - itemsPerPage, active * itemsPerPage).map(t =>
         <OneThread key={t.id}>
-          <Link key={t.id} to={`/thread/${t.id}`}> {t.title} </Link>
-          &nbsp;&nbsp; comments {countComments(t)}
-
-          &nbsp;&nbsp; started by: <Link key={t.user} to={`/user/${t.user}`}> {props.findUserNameById(t.user)} </Link>
-
+          <CommentText>
+            <Link key={t.id} to={`/thread/${t.id}`}> {t.title} </Link>
+          </CommentText>
+          <ThreadInformation>
+            &nbsp;&nbsp; comments {countComments(t)}
+            &nbsp;&nbsp; started by: <Link key={t.user} to={`/user/${t.user}`}> {props.findUserNameById(t.user)} </Link>
+          </ThreadInformation>
         </OneThread>
       )}
-
       {paginationBasic}
-
     </div>
   )
 }

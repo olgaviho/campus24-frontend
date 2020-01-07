@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import NewThreadForm from './components/NewThreadForm'
 import LoginForm from './components/Login'
 import NewUserFrom from './components/NewUserForm'
@@ -8,22 +10,14 @@ import Search from './components/Search'
 import Thread from './components/Thread'
 import User from './components/User'
 import Settings from './components/Settings'
-import { Page, Navigation, Title, DropdownMenuItem, DropdownMenuButton, LogoutButton } from './components/Style'
-
-import './index.css'
-import { connect } from 'react-redux'
 import { initializeThreads } from './reducers/threadReducer'
 import { initializeComments } from './reducers/commentsReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { setUser, logout } from './reducers/loginReducer'
 import { setNotification } from './reducers/notificationReducer'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-} from 'styled-dropdown-component'
+import { Dropdown, DropdownItem, DropdownMenu } from 'styled-dropdown-component'
+import { Page, Navigation, Title, DropdownMenuItem, DropdownMenuButton, LogoutButton } from './components/Style'
+import './index.css'
 
 const App = (props) => {
 

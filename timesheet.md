@@ -45,3 +45,4 @@
 | 19.12.2019 | 6 | 152,5 | fixed dropdown menu, now it possible edit password and made tests for editing |
 | 20.12.2019 | 6 | 158,5 | dropdown menu working better, fixed all broken cypress tests, now users can be viewed |
 | 6.1.2020 | 6 | 164,5 | made new build, did more tests with cypress, added validation to backend and made tests for it with jest and fixed all broken tests |
+| 7.1.2020 | 5 | 169,5 | fixed few routes and layout |

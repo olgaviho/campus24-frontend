@@ -1,5 +1,5 @@
-import { connect } from 'react-redux'
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { Button, Input } from './Style'
 import { setNotification } from './../reducers/notificationReducer'

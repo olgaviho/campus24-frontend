@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useHistory, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setNotification } from './../reducers/notificationReducer'
 import { addThread } from './../reducers/threadReducer'
@@ -6,7 +7,15 @@ import { Input, TextArea, Button } from './Style'
 
 const newThreadForm = (props) => {
 
+  if (props.user === null) {
+    return (
+      <div>
+        <Redirect to="/" />
+      </div>
+    )
+  }
 
+  let history = useHistory()
   const [newTitle, setNewTitle] = useState('')
   const [newMessage, setNewMessage] = useState('')
 
@@ -41,6 +50,7 @@ const newThreadForm = (props) => {
         props.setNotification('New thread added')
         setNewTitle('')
         setNewMessage('')
+        history.push("/")
       } catch (e) {
         props.setNotification('Failed to create new comment')
       }

@@ -1,11 +1,11 @@
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { logout } from './../reducers/loginReducer'
 import { setNotification } from './../reducers/notificationReducer'
 import { deleteUser } from './../reducers/usersReducer'
 import { deleteThread } from './../reducers/threadReducer'
 import { deleteComment } from './../reducers/commentsReducer'
-import { Redirect } from 'react-router-dom'
 import { Button } from './Style'
 
 const DeleteAccount = (props) => {
