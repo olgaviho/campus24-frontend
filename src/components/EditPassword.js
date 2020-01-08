@@ -52,10 +52,10 @@ const EditPassword = (props) => {
 
   return (
     <div>
-      new message
-      <Input value={newPassword} id='editComment'
+      new password
+      <Input value={newPassword} id='changePassword' name='changePassword'
         onChange={handleNewPasswordChange} />
-      <Button onClick={() => EditPasswordFunction()}>Edit password</Button>
+      <Button onClick={() => EditPasswordFunction()}>Edit</Button>
     </div>
   )
 }

@@ -25,7 +25,7 @@ const allThreads = (props) => {
       <Pagination.Item onClick={() => {
         setClickState(number)
       }}
-        key={number} active={number === active}>
+      key={number} active={number === active}>
         {number}
       </Pagination.Item>
     )

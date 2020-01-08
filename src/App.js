@@ -93,7 +93,7 @@ const App = (props) => {
 
                   <Link style={padding} to="/search">Search</Link>
 
-                  {props.user !== null && <Link style={padding} to="/addNewThread">Add a new thread</Link>}
+                  {props.user !== null && <Link style={padding} to="/addNewThread">Add new thread</Link>}
 
                   <DropdownMenuItem>
                     <Dropdown>

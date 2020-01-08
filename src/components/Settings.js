@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom'
 import { setNotification } from './../reducers/notificationReducer'
 import DeleteAccount from './DeleteAccount'
 import EditPassword from './EditPassword'
-import { Button } from './Style'
 
 
 const Settings = (props) => {

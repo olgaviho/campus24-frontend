@@ -57,6 +57,7 @@ const OneThread = styled.div`
   padding: 0.5em 1em;
   border: 1px solid black;
   background: skyblue;
+  width: 50%
 `
 
 const CommentInformation = styled.div`
@@ -65,6 +66,7 @@ const CommentInformation = styled.div`
   border: 1px solid black;
   background: skyblue;
   font-size: 0.75em;
+  width: 50%
   `
 const CommentText = styled.div`
 

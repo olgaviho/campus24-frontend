@@ -139,7 +139,7 @@ describe('Campus24 ', function () {
   })
 
   it('user that has not logged in can not create a new thread', function() {
-    cy.contains('Add a new thread')
+    cy.contains('Add new thread')
       .should('not.exist')
   })
 
@@ -243,7 +243,7 @@ describe('Campus24 ', function () {
 
 
       it('logged user can add a new thread ', function () {
-        cy.contains('Add a new thread')
+        cy.contains('Add new thread')
           .click()
         cy.get('#NewTitle')
           .type('uusi threadi')
@@ -254,9 +254,34 @@ describe('Campus24 ', function () {
         cy.contains('New thread added')
       })
 
+      it('user can edit password ', function () {
+        cy.contains('Menu')
+          .click()
+        cy.get('#settingsItem')
+          .click()
+        cy.get('#changePassword')
+          .type('salaatti')
+        cy.contains('Edit')
+          .click()
+
+        cy.contains('Menu')
+          .click()
+        cy.get('#logoutItem')
+          .click()
+        cy.get('#loginItem')
+          .click()
+        cy.get('#Username')
+          .type('peruna')
+        cy.get('#Password')
+          .type('salaatti')
+        cy.contains('login')
+          .click()
+        cy.contains('Welcome')
+      })
+
       describe('When there is a thread in database', function () {
         beforeEach(function () {
-          cy.contains('Add a new thread')
+          cy.contains('Add new thread')
             .click()
           cy.get('#NewTitle')
             .type('uusi threadi')
@@ -266,6 +291,7 @@ describe('Campus24 ', function () {
             .click()
           cy.wait(3000)
         })
+
 
         it('user that has not logged in, can not edit or delete thread ', function () {
           cy.contains('Menu')
@@ -357,7 +383,7 @@ describe('Campus24 ', function () {
             cy.get('#editComment')
               .type('kommentin teksti muuttuu')
             cy.contains('edit comment')
-              .click()  
+              .click()
             cy.contains('Comment edited')
             cy.contains('kommentin teksti muuttuu')
             cy.wait(3000)
@@ -371,6 +397,13 @@ describe('Campus24 ', function () {
             cy.contains('Comment deleted')
             cy.contains('uusi kommentti')
               .should('not.exist')
+          })
+
+          it('user can be viewed', function () {
+            cy.contains('peruna')
+              .click()
+            cy.contains('Number of threads started: 1')
+
           })
 
           it('search is working', function () {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import Comment from './Comment'
 import NewCommentForm from './NewCommentForm'
 import { deleteThread, editThread } from './../reducers/threadReducer'
@@ -98,7 +98,7 @@ const Thread = (props) => {
       <div className='thread'>
         <CommentInformation>
           <h3>{props.thread.title}</h3>
-          Author: {props.findUserNameById(props.thread.user)}
+          Author: <Link  to={`/user/${props.thread.user}`}> {props.findUserNameById(props.thread.user)} </Link>
           <CommentText>{props.thread.message}</CommentText>
         </CommentInformation>
         Comments
@@ -137,7 +137,7 @@ const Thread = (props) => {
     <div className='thread'>
       <CommentInformation>
         <h3>{props.thread.title}</h3>
-        Author: {props.findUserNameById(props.thread.user)}
+        Author: <Link  to={`/user/${props.thread.user}`}> {props.findUserNameById(props.thread.user)} </Link>
         <CommentText>{props.thread.message}</CommentText>
         {showButtons && buttonFunction()}
       </CommentInformation>

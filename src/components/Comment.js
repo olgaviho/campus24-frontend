@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { deleteComment, editComment } from './../reducers/commentsReducer'
 import { setNotification } from './../reducers/notificationReducer'
 import { SmallButton, Input, CommentInformation, CommentText } from './Style'
@@ -17,7 +18,7 @@ const Comment = (props) => {
 
     return (
       <div>
-        <CommentInformation> Author: {props.findUserNameById(props.comment.user)} Date: {props.comment.date}
+        <CommentInformation> Author: <Link  to={`/user/${props.comment.user}`}> {props.findUserNameById(props.comment.user)} </Link> Date: {props.comment.date}
           <CommentText> {props.comment.message} </CommentText>
         </CommentInformation>
       </div>
@@ -86,7 +87,7 @@ const Comment = (props) => {
 
   return (
     <div>
-      <CommentInformation> Author:  {props.findUserNameById(props.comment.user)} Date: {props.comment.date}
+      <CommentInformation> Author:  <Link  to={`/user/${props.comment.user}`}> {props.findUserNameById(props.comment.user)} </Link> Date: {props.comment.date}
         <CommentText> {props.comment.message}
 
         </CommentText>
